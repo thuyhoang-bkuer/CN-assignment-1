@@ -1,6 +1,5 @@
 package com.messenger;
 
-import com.lobby.community.Listener;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -17,8 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import com.messages.MessageReceiver;
-import com.messages.MessageSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,8 +76,7 @@ public class MessengerController extends Thread{
 				Thread.sleep(1000);
 				if(messageReceiver.isConnected() && messageReceiver.getReceiverPort()!=-1 && messageSender.getSenderPort()!=-1)
 				{
-					logger.info("Receiving at :"+messageReceiver.getReceiverPort());
-					logger.info("Boom");
+					logger.info("Receiving at :" + messageReceiver.getReceiverPort());
 					showChatScreen();
 					messageReceiver.setRoot(root);
 					messageSender.setRoot(root);

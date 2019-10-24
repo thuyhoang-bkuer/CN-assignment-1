@@ -1,7 +1,5 @@
-package com.messages;
+package com.messenger;
 
-import com.lobby.community.Listener;
-import com.messenger.MessengerController;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.Event;

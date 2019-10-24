@@ -434,6 +434,7 @@ public class ChatController implements Initializable {
                     try {
                         logger.info("Open connection to " + curr.getName());
                         Listener.sendChannelUpadte(curr.getName());
+                        if (!curr.getName().equals("#Community")) Listener.openP2PMessenger(curr.getName());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -475,6 +476,29 @@ public class ChatController implements Initializable {
 
     }
 
+    public void openMessenger(Message message) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                logger.info("Open messenger");
+                Parent root;
+                try {
+                    root = FXMLLoader.load(getClass().getClassLoader().getResource("views/Messenger.fxml"));
+                    Stage stage = new Stage();
+                    stage.setTitle("Messenger");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                    // Hide this current window (if this is what you want)
+                    // ((Node)(event.getSource())).getScene().getWindow().hide();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
     public void setImageLabel(String selectedPicture) {
         this.userImageView.setImage(new Image(getClass().getClassLoader().getResource(selectedPicture).toString()));
     }
@@ -499,4 +523,6 @@ public class ChatController implements Initializable {
             stage.centerOnScreen();
         });
     }
+
+
 }

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import static com.messages.MessageType.CONNECTED;
 
@@ -18,6 +19,8 @@ public class Listener implements Runnable{
     private static final String HASCONNECTED = "has connected";
     private static final String COMMUNITY = "#Community";
     private static final String COMMUNITY_IMAGE = "images/alphabet/#.png";
+
+    private static ArrayList<String> peers = new ArrayList<>();
 
     public static User community;
     private static String picture;
@@ -95,6 +98,9 @@ public class Listener implements Runnable{
                         case PICTURE:
                             controller.addToChat(message);
                             break;
+                        case OPENP2P:
+                            controller.openMessenger(message);
+                            break;
                         case CHANNEL:
                             break;
                     }
@@ -107,6 +113,17 @@ public class Listener implements Runnable{
             controller.logoutScene();
         }
 
+    }
+
+    public static void openP2PMessenger(String client) throws IOException {
+        if (!peers.contains(client)) {
+            peers.add(client);
+            Message createMessage = new Message();
+            createMessage.setName(username);
+            createMessage.setType(MessageType.OPENP2P);
+            oos.writeObject(createMessage);
+            oos.flush();
+        }
     }
 
 
