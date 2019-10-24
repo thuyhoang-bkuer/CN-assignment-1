@@ -71,16 +71,16 @@ public class MessengerController extends Thread{
 	
 	@Override
 	public void run() {
-		System.out.println(Thread.currentThread().getName()+" started....");
+		logger.info(Thread.currentThread().getName()+" started....");
 		while(!messageReceiver.isConnected() || messageReceiver.getReceiverPort()!=-1 || messageSender.getSenderPort()!=-1)
 		{
-			System.out.println("not connected");
+			logger.info("not connected");
 			try {
 				Thread.sleep(1000);
 				if(messageReceiver.isConnected() && messageReceiver.getReceiverPort()!=-1 && messageSender.getSenderPort()!=-1)
 				{
-					System.out.println("Receiving at :"+messageReceiver.getReceiverPort());
-					System.out.println("Boom");
+					logger.info("Receiving at :"+messageReceiver.getReceiverPort());
+					logger.info("Boom");
 					showChatScreen();
 					messageReceiver.setRoot(root);
 					messageSender.setRoot(root);
@@ -89,13 +89,13 @@ public class MessengerController extends Thread{
 					if(conncetionChecker.isAlive())
 					{
 						conncetionChecker.stop();
-						System.out.println("Thread Closed");
+						logger.info("Thread Closed");
 						
 					}
-					else System.out.println("Thread not active");
+					else logger.info("Thread not active");
 					
 				}
-				System.out.println("TOtal running...."+Thread.activeCount());
+				logger.info("TOtal running...."+Thread.activeCount());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -108,12 +108,11 @@ public class MessengerController extends Thread{
 	
 	public void showChatScreen() throws IOException
 	{
-		fxmlLoader = new FXMLLoader(getClass().getResource("../../resources/views/ChatScreen.fxml"));
+		fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("views/ChatScreen.fxml"));
 		root = (Pane) fxmlLoader.load();
 		if(root==null)
-			System.out.println("NULL");
-		System.out.println("gg"+this.root);
-		System.out.println(main);
+			logger.info("NULL");
+		logger.info("gg"+this.root);
 		if(main!=null)
 			main.setRoot(this.root);
 		initChatScreenNodes();
@@ -130,7 +129,7 @@ public class MessengerController extends Thread{
 					getValues();
 					validateForm();
 					if(isValid){
-						System.out.println("Sending...");
+						logger.info("Sending...");
 						submitButton.setOpacity(0.7);
 						submitButton.setText("Connecting...");
 						messageReceiver = new MessageReceiver(Integer.parseInt(portToListen));
@@ -157,7 +156,7 @@ public class MessengerController extends Thread{
 			@Override
 			public void handle(Event event) {
 				try {
-					System.out.println("Reseting....");
+					logger.info("Reseting....");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -179,7 +178,6 @@ public class MessengerController extends Thread{
 		message = (Label) root.lookup("#message");
 		userNameField = (TextField) root.lookup("#userNameField");
 		userNameEmptyMessage = (Label) root.lookup("#userNameEmptyMessage");
-		System.out.println(portField);
 		ipaddrEmptyMessage.setVisible(false);
 		portNoEmptyMessage.setVisible(false);
 		portNoToListenEmptyMessage.setVisible(false);
@@ -252,7 +250,6 @@ public class MessengerController extends Thread{
 
 				String hexColor = "#" + Integer.toHexString(color.hashCode()); 
 				
-				System.out.println(scrollPane);
 				try {
 					messageSender.sendBackgroundColor(hexColor);
 				} catch (IOException e) {
@@ -285,16 +282,11 @@ public class MessengerController extends Thread{
 			public void handle(Event event) {
 				for(String message : allMessages)
 				{
-					System.out.println(message);
+					logger.info(message);
 				}
 				try {
-					FileReader fileReader = new FileReader("C:\\chatlog\\"+ipAddressToConnect+".txt");
+					FileReader fileReader = new FileReader(ipAddressToConnect+".txt");
 					StringBuilder messages = new StringBuilder();
-					while(fileReader.read()!=-1)
-					{
-						System.out.println((char)fileReader.read());
-						
-					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -371,7 +363,6 @@ public class MessengerController extends Thread{
 		{
 			userNameEmptyMessage.setVisible(false);
 		}
-		System.out.println(isValid);
 	}
 
 	public void updateLabel()
@@ -386,7 +377,7 @@ public class MessengerController extends Thread{
 		{
 			messages+=message+"\n";
 		}
-		System.out.println(messages);
+		logger.info(messages);
 		byte[] byteArrayFromString = messages.getBytes(Charset.forName("UTF-8"));
 		
 		
@@ -403,7 +394,7 @@ public class MessengerController extends Thread{
 	        File file = fileSaver.showSaveDialog(stage);
 	        if(file!=null)
 	        {
-	        	System.out.println(file.getAbsolutePath());
+	        	logger.info(file.getAbsolutePath());
 	        	try {
 					saveFile(file.getAbsolutePath(),byteArrayFromString,false);
 				} catch (IOException e) {
@@ -422,7 +413,7 @@ public class MessengerController extends Thread{
 			Optional<ButtonType> result = alert.showAndWait();
 			if ((result.isPresent()) && (result.get() == ButtonType.OK))
 			{
-				saveFile("C:\\chatlog\\"+ipAddressToConnect+".txt",byteArrayFromString,true);
+				saveFile(ipAddressToConnect+".txt",byteArrayFromString,true);
 				//Thread.currentThread().stop();
 				//messageSender.stop();
 				//messageReceiver.stop();
@@ -446,7 +437,7 @@ public class MessengerController extends Thread{
 	public void saveFile(String filePath,byte[] byteArray,boolean isExiting) throws IOException
 	{
 
-		System.out.println("From OutSide");
+		logger.info("From OutSide");
 		for(byte b : byteArray)
 		{
 			System.out.print((char)b);
