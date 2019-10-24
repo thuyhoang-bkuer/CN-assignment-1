@@ -26,15 +26,20 @@
 	-fx-background-size:100% 100%;
 }
 .chatbodybg{
-	-fx-background-color: white;
+	-fx-background-color:  linear-gradient(to right, #0f2027, #203a43, #2c5364);
 	-fx-background-size:100% 100%;
 	 
 }
 .scroll-pane > .viewport {
-   -fx-background-color:transparent;
+   -fx-background-color: #a0a0a0;
    -fx-border-color:transparent;
+
+   -fx-background-size: 100% 100%;
 }
 .scroll-pane {
    -fx-background-color: transparent;
    -fx-border-color:transparent ;
+}
+.topPanel{
+    -fx-background-color:  linear-gradient(to right, #417e56, #00615b, #004251, #0d2436, #080314);
 }
