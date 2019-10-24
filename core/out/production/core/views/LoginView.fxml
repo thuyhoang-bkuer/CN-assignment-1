@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxWidth="350.0" minWidth="350.0" prefHeight="420.0" prefWidth="350.0" style="-fx-background-color: linear-gradient(to right, #0f2027, #203a43, #2c5364)" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hobby.login.LoginController">
+<BorderPane fx:id="borderPane" maxWidth="350.0" minWidth="350.0" prefHeight="420.0" prefWidth="350.0" style="-fx-background-color: linear-gradient(to right, #0f2027, #203a43, #2c5364)" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lobby.login.LoginController">
    <right>
       <GridPane prefHeight="407.0" prefWidth="350.0" BorderPane.alignment="CENTER">
          <columnConstraints>
