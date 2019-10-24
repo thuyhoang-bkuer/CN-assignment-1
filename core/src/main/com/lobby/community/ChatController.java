@@ -52,6 +52,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -80,6 +81,8 @@ public class ChatController implements Initializable {
     private double yOffset;
 
     Logger logger = LoggerFactory.getLogger(ChatController.class);
+
+    private HashMap<String, Stage> messengers = new HashMap<>();
 
 
     public void sendButtonAction() throws IOException {
@@ -480,7 +483,8 @@ public class ChatController implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                logger.info("Open messenger");
+                String peer = message.getPeer().equals(Listener.username) ? message.getName() : message.getPeer();
+                logger.info("Open messenger " + message.getName() + " - " + message.getChannel());
                 Parent root;
                 try {
                     root = FXMLLoader.load(getClass().getClassLoader().getResource("views/Messenger.fxml"));
@@ -488,11 +492,24 @@ public class ChatController implements Initializable {
                     stage.setTitle("Messenger");
                     stage.setScene(new Scene(root));
                     stage.show();
+                    messengers.put(peer, stage);
+                    stage.setOnCloseRequest(e -> {
+                        try {
+                            Listener.closeP2PMessenger(peer);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+
                     // Hide this current window (if this is what you want)
                     // ((Node)(event.getSource())).getScene().getWindow().hide();
                 }
                 catch (IOException e) {
                     e.printStackTrace();
+                }
+                finally {
+                    logger.info("Messengers - " + messengers.size());
+                    Listener.addPeer(peer);
                 }
             }
         });
@@ -525,4 +542,16 @@ public class ChatController implements Initializable {
     }
 
 
+    public void closeMessenger(Message message) {
+        Platform.runLater(() -> {
+            String peer = message.getPeer().equals(Listener.username) ? message.getName() : message.getPeer();
+            Stage stage;
+            if ((stage =  messengers.get(peer)) != null) {
+                stage.close();
+            }
+            messengers.remove(peer);
+            Listener.removePeer(peer);
+            logger.info("Messengers - " + messengers.size());
+        });
+    }
 }

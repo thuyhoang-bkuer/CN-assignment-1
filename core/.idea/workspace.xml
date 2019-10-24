@@ -2,49 +2,42 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bf0d7099-d04b-4d72-8974-c9ae50591284" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/com/messenger/Controller.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/views/Messenger.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/CellRenderer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/CellRenderer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/CellRenderer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/CellRenderer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$5.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController$7.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/ChatController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/Listener$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/Listener$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/core/com/lobby/community/Listener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/lobby/community/Listener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageReceiver$1$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageReceiver$1$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageReceiver$1$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageReceiver$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageReceiver$2$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageReceiver$2$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageReceiver$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageReceiver$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageReceiver.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageSender$1$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageSender$1$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageSender$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageSender$2$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageSender$2$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageSender$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageSender.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/Message.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messages/Message.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/core/com/messages/MessageType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messages/MessageType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/messenger/MessengerController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/core/com/server/Server$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/server/Server$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/core/com/server/Server$Handler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/com/server/Server$Handler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/images/file.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/images/file.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/images/loadIcon.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/images/loadIcon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/images/save.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/images/save.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/images/send.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/images/send.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/images/theme.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/images/theme.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/resources/images/file.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/resources/images/file.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/resources/images/loadIcon.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/resources/images/loadIcon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/resources/images/save.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/resources/images/save.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/resources/images/send.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/resources/images/send.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/resources/images/theme.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/resources/images/theme.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/resources/styles/listStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/resources/styles/listStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/resources/views/ChatScreen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/resources/views/ChatScreen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/styles/listStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/styles/listStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/core/views/ChatScreen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/core/views/ChatScreen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/com/lobby/community/CellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/com/lobby/community/CellRenderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/com/lobby/community/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/com/lobby/community/ChatController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/com/lobby/community/Listener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/com/lobby/community/Listener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/com/messages/MessageReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/com/messenger/MessageReceiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/com/messages/MessageSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/com/messenger/MessageSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/com/messages/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/com/messages/Message.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/com/messages/MessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/com/messages/MessageType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/com/messenger/MessengerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/com/messenger/MessengerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/com/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/com/server/Server.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -186,7 +179,8 @@
       <option name="presentableId" value="Default" />
       <updated>1571906001580</updated>
       <workItem from="1571906003106" duration="3618000" />
-      <workItem from="1571909985149" duration="7974000" />
+      <workItem from="1571909985149" duration="12580000" />
+      <workItem from="1571923302729" duration="1041000" />
     </task>
     <servers />
   </component>
@@ -198,7 +192,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

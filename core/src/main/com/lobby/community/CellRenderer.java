@@ -1,5 +1,6 @@
 package com.lobby.community;
 
+import com.messages.Status;
 import com.messages.User;
 import javafx.geometry.Pos;
 import javafx.scene.control.ListCell;
@@ -28,9 +29,15 @@ class CellRenderer implements Callback<ListView<User>,ListCell<User>>{
                     HBox hBox = new HBox();
 
                     Text name = new Text(user.getName());
+                    String status;
+
+                    if (user.getStatus() == null)
+                        status = Status.ONLINE.toString().toLowerCase();
+                    else
+                        status = user.getStatus().toString().toLowerCase();
 
                     ImageView statusImageView = new ImageView();
-                    Image statusImage = new Image(getClass().getClassLoader().getResource("images/" + user.getStatus().toString().toLowerCase() + ".png").toString(), 16, 16,true,true);
+                    Image statusImage = new Image(getClass().getClassLoader().getResource("images/" + status + ".png").toString(), 16, 16,true,true);
                     statusImageView.setImage(statusImage);
 
                     ImageView pictureImageView = new ImageView();

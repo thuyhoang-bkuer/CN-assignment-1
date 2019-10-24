@@ -137,6 +137,9 @@ public class Server implements Runnable{
                             case OPENP2P:
                                 openP2P(inputmsg);
                                 break;
+                            case CLOSEP2P:
+                                closeP2P(inputmsg);
+                                break;
                             default:
                                 logger.warn("Message ignored cause uncaught  UnknownType!");
                         }
@@ -154,10 +157,24 @@ public class Server implements Runnable{
             }
         }
 
+        private Message closeP2P(Message inputmsg) throws IOException {
+            logger.info("Close P2P " + inputmsg.getName() + "-" + inputmsg.getChannel());
+            Message msg = new Message();
+            msg.setName(user.getName());
+            msg.setPeer(inputmsg.getPeer());
+            msg.setType(MessageType.CLOSEP2P);
+            msg.setMsg("");
+            User userObj = names.get(name);
+            userObj.setStatus(inputmsg.getStatus());
+            write(msg);
+            return msg;
+        }
+
         private Message openP2P(Message inputmsg) throws IOException {
             logger.info("Open P2P " + inputmsg.getName() + "-" + inputmsg.getChannel());
             Message msg = new Message();
             msg.setName(user.getName());
+            msg.setPeer(inputmsg.getPeer());
             msg.setType(MessageType.OPENP2P);
             msg.setMsg("");
             User userObj = names.get(name);

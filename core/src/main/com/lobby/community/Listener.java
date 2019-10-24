@@ -101,6 +101,8 @@ public class Listener implements Runnable{
                         case OPENP2P:
                             controller.openMessenger(message);
                             break;
+                        case CLOSEP2P:
+                            controller.closeMessenger(message);
                         case CHANNEL:
                             break;
                     }
@@ -115,12 +117,35 @@ public class Listener implements Runnable{
 
     }
 
-    public static void openP2PMessenger(String client) throws IOException {
+    public static void addPeer(String client) {
         if (!peers.contains(client)) {
             peers.add(client);
+            System.out.println(peers.size());
+        }
+    }
+
+    public static void removePeer(String peer) {
+        peers.removeIf(p -> p.equals(peer));
+        System.out.println(peers.size());
+    }
+
+    public static void closeP2PMessenger(String peer) throws IOException {
+        Message createMessage = new Message();
+        createMessage.setName(username);
+        createMessage.setType(MessageType.CLOSEP2P);
+        createMessage.setPeer(peer);
+        oos.writeObject(createMessage);
+        oos.flush();
+    }
+
+
+
+    public static void openP2PMessenger(String peer) throws IOException {
+        if (!peers.contains(peer)) {
             Message createMessage = new Message();
             createMessage.setName(username);
             createMessage.setType(MessageType.OPENP2P);
+            createMessage.setPeer(peer);
             oos.writeObject(createMessage);
             oos.flush();
         }

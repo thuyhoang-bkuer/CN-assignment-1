@@ -16,8 +16,16 @@ public class Message implements Serializable {
     private byte[]          voiceMsg;
     private byte[]          pictureMsg;
     private String          picture;
-    private String      channel;
+    private String          channel;
+    private String          peer;
 
+    public String getPeer() {
+        return peer;
+    }
+
+    public void setPeer(String peer) {
+        this.peer = peer;
+    }
 
     public Message() {}
 
