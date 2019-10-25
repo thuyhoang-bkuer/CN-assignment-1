@@ -1,16 +1,18 @@
 package com.lobby.community;
 
 import com.lobby.login.LoginController;
-import com.messages.Message;
-import com.messages.MessageType;
-import com.messages.Status;
-import com.messages.User;
+import com.messages.*;
+import com.messenger.MessageReceiver;
+import com.messenger.MessageSender;
+import com.messenger.MessengerController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 import static com.messages.MessageType.CONNECTED;
 
@@ -19,13 +21,14 @@ public class Listener implements Runnable{
     private static final String HASCONNECTED = "has connected";
     private static final String COMMUNITY = "#Community";
     private static final String COMMUNITY_IMAGE = "images/alphabet/#.png";
+    private static Random random;
 
-    private static ArrayList<String> peers = new ArrayList<>();
+    private static HashMap<String, Integer> peers = new HashMap<>();
 
     public static User community;
     private static String picture;
     private Socket socket;
-    public String hostname;
+    public static String hostname;
     public int port;
     public static String username;
     public ChatController controller;
@@ -37,11 +40,12 @@ public class Listener implements Runnable{
     Logger logger = LoggerFactory.getLogger(Listener.class);
 
     public Listener(String hostname, int port, String username, String picture, ChatController controller) {
-        this.hostname = hostname;
         this.port = port;
+        this.controller = controller;
+        Listener.random = new Random();
+        Listener.hostname = hostname;
         Listener.username = username;
         Listener.picture = picture;
-        this.controller = controller;
         Listener.community = new User(COMMUNITY, COMMUNITY_IMAGE, "ONLINE");
         Listener.channel = "#Community";
     }
@@ -99,9 +103,13 @@ public class Listener implements Runnable{
                             controller.addToChat(message);
                             break;
                         case OPENP2P:
-                            controller.openMessenger(message);
+                            if (!peers.containsKey(message.getName()))
+                                openP2PConnection(message.getName());
+                            waitForConnection(message);
                             break;
                         case CLOSEP2P:
+                            if (peers.containsKey(message.getName()))
+                                closeP2PConnection(message.getName());
                             controller.closeMessenger(message);
                         case CHANNEL:
                             break;
@@ -117,31 +125,44 @@ public class Listener implements Runnable{
 
     }
 
-    public static void addPeer(String client) {
-        if (!peers.contains(client)) {
-            peers.add(client);
-            System.out.println(peers.size());
+    private void waitForConnection(Message message) throws IOException {
+        controller.openMessenger(message,
+                new MessageSender(message.getPeer().getSourceHost(), peers.get(message.getName())),
+                new MessageReceiver(message.getPeer().getSourcePort()));
+    }
+
+    public static void closeP2PConnection(String name) throws IOException {
+        System.out.println(("Close P2P connection to " + name));
+        if (peers.containsKey(name)) {
+            Peer peer = new Peer();
+            peer.setName(name);
+            peer.setSourceHost(hostname);
+            peer.setSourcePort(peers.get(name));
+
+            Message createMessage = new Message();
+            createMessage.setName(username);
+            createMessage.setType(MessageType.CLOSEP2P);
+            createMessage.setPeer(peer);
+            oos.writeObject(createMessage);
+            oos.flush();
+
+            peers.remove(name);
         }
     }
 
-    public static void removePeer(String peer) {
-        peers.removeIf(p -> p.equals(peer));
-        System.out.println(peers.size());
-    }
-
-    public static void closeP2PMessenger(String peer) throws IOException {
-        Message createMessage = new Message();
-        createMessage.setName(username);
-        createMessage.setType(MessageType.CLOSEP2P);
-        createMessage.setPeer(peer);
-        oos.writeObject(createMessage);
-        oos.flush();
-    }
 
 
+    public static void openP2PConnection(String name) throws IOException {
+        System.out.println(("Open P2P connection to " + name));
+        if (!peers.containsKey(name)) {
+            int randPort;
+            do randPort = random.nextInt(11111) + 11111; while (peers.containsValue(randPort));
+            Peer peer = new Peer();
+            peer.setName(name);
+            peer.setSourcePort(randPort);
 
-    public static void openP2PMessenger(String peer) throws IOException {
-        if (!peers.contains(peer)) {
+            peers.put(name,randPort);
+
             Message createMessage = new Message();
             createMessage.setName(username);
             createMessage.setType(MessageType.OPENP2P);

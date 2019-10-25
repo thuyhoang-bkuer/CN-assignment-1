@@ -2,14 +2,18 @@ package com.lobby.community;
 
 import com.messages.Status;
 import com.messages.User;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
+
+import java.io.IOException;
 
 /**
  * A Class for Rendering users images / name on the userlist.
@@ -48,9 +52,27 @@ class CellRenderer implements Callback<ListView<User>,ListCell<User>>{
                     hBox.setAlignment(Pos.CENTER_LEFT);
 
                     setGraphic(hBox);
+
+                    if (!user.getName().equals("#Community"))
+                        setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent click) {
+                                if (click.getClickCount() == 2) {
+                                    try {
+                                         Listener.openP2PConnection(user.getName());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
                 }
+
+
             }
         };
+
+
         return cell;
     }
 }

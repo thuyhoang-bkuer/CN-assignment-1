@@ -6,6 +6,9 @@ import java.io.Serializable;
  * Created by Dominic on 01-May-16.
  */
 public class User implements Serializable {
+    private String name;
+    private String picture;
+    private Status status;
 
     public String getName() {
         return name;
@@ -14,8 +17,6 @@ public class User implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-    String name;
 
     public String getPicture() {
         return picture;
@@ -32,9 +33,6 @@ public class User implements Serializable {
     public void setStatus(Status status) {
         this.status = status;
     }
-
-    String picture;
-    Status status;
 
     public User(String name, String picture, String status) {
         this.name = name;

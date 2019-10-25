@@ -14,7 +14,7 @@ public class Messenger extends Application {
 	private Pane root;
 	private Parent chatScreen;
 	private Scene scene;
-	private MessengerController mainController;
+	private AnotherController mainController;
 	@FXML private ImageView homeImage;
 	@Override
 	public void start(Stage primaryStage) {
@@ -29,7 +29,7 @@ public class Messenger extends Application {
 			primaryStage.setTitle("Welcome");
 			primaryStage.setResizable(false);
 			primaryStage.show();
-			mainController = new MessengerController(this);
+			mainController = new AnotherController(this);
 			mainController.setStage(primaryStage);
 		} catch(Exception e) {
 			System.out.println("There is a problem");

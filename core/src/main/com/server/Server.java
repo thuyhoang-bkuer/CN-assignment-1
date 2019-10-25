@@ -1,14 +1,12 @@
 package com.server;
 
 import com.exception.DuplicateUsernameException;
-import com.messages.Message;
-import com.messages.MessageType;
-import com.messages.Status;
-import com.messages.User;
+import com.messages.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -25,6 +23,7 @@ public class Server implements Runnable{
     private static final HashMap<String, User> names = new HashMap<>();
     private static HashMap<String, ObjectOutputStream> writers = new HashMap<>();
     private static ArrayList<User> users = new ArrayList<>();
+    private static HashMap<String, InetAddress> addresses = new HashMap<>();
     static Logger logger = LoggerFactory.getLogger(Server.class);
 
     private static ServerSocket listener;
@@ -112,7 +111,7 @@ public class Server implements Runnable{
                 while (socket.isConnected()) {
                     Message inputmsg = (Message) input.readObject();
                     if (inputmsg != null) {
-                        logger.info(inputmsg.getType() + " - " + name + " -> " + channel);
+//                        logger.info(inputmsg.getType() + " - " + name + " -> " + channel);
                         switch (inputmsg.getType()) {
                             case USER:
                                 write(inputmsg);
@@ -158,28 +157,29 @@ public class Server implements Runnable{
         }
 
         private Message closeP2P(Message inputmsg) throws IOException {
-            logger.info("Close P2P " + inputmsg.getName() + "-" + inputmsg.getChannel());
+            logger.info("Close P2P " + inputmsg.getName() + "-" + inputmsg.getPeer().getName());
             Message msg = new Message();
             msg.setName(user.getName());
             msg.setPeer(inputmsg.getPeer());
             msg.setType(MessageType.CLOSEP2P);
             msg.setMsg("");
-            User userObj = names.get(name);
-            userObj.setStatus(inputmsg.getStatus());
-            write(msg);
+            writers.get(inputmsg.getPeer().getName()).writeObject(msg);
+            writers.get(inputmsg.getPeer().getName()).reset();
             return msg;
         }
 
         private Message openP2P(Message inputmsg) throws IOException {
-            logger.info("Open P2P " + inputmsg.getName() + "-" + inputmsg.getChannel());
+            logger.info("Open P2P " + inputmsg.getName() + "-" + inputmsg.getPeer().getName());
+            Peer peer = inputmsg.getPeer();
+            peer.setSourceHost(addresses.get(peer.getName()).getHostAddress());
             Message msg = new Message();
             msg.setName(user.getName());
+
             msg.setPeer(inputmsg.getPeer());
             msg.setType(MessageType.OPENP2P);
             msg.setMsg("");
-            User userObj = names.get(name);
-            userObj.setStatus(inputmsg.getStatus());
-            write(msg);
+            writers.get(inputmsg.getPeer().getName()).writeObject(msg);
+            writers.get(inputmsg.getPeer().getName()).reset();
             return msg;
         }
 
@@ -208,13 +208,13 @@ public class Server implements Runnable{
                 user.setName(firstMessage.getName());
                 user.setStatus(Status.ONLINE);
                 user.setPicture(firstMessage.getPicture());
-
                 users.add(user);
                 names.put(name, user);
+                addresses.put(name, socket.getInetAddress());
 
-                logger.info(name + " has been added to the list");
+                logger.info(name +  " has been added to the list");
             } else {
-                logger.error(firstMessage.getName() + " is already connected");
+                logger.error(firstMessage.getName()  + " is already connected");
                 throw new DuplicateUsernameException(firstMessage.getName() + " is already connected");
             }
         }

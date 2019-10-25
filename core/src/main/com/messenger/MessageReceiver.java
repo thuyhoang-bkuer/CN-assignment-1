@@ -236,7 +236,7 @@ public class MessageReceiver extends Thread {
 							public void run() {
 								
 								Label messageLabel = new Label(finalMessage);
-								MessengerController.allMessages.add(new String(sender+" : "+finalMessage));
+								MessengerController.allMessages.add(sender + " : " + finalMessage);
 								Label senderLabel = new Label(sender);
 								senderLabel.setFont(new Font(10));
 								senderLabel.setStyle("-fx-padding:2;-fx-background-color:#2c3e50;");

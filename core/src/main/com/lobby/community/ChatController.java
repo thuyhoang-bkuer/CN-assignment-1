@@ -11,6 +11,9 @@ import com.messages.Status;
 import com.messages.User;
 import com.messages.bubble.BubbleSpec;
 import com.messages.bubble.BubbledLabel;
+import com.messenger.MessageReceiver;
+import com.messenger.MessageSender;
+import com.messenger.MessengerController;
 import com.traynotifications.animations.AnimationType;
 import com.traynotifications.notification.TrayNotification;
 import javafx.animation.KeyFrame;
@@ -36,6 +39,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -437,12 +441,14 @@ public class ChatController implements Initializable {
                     try {
                         logger.info("Open connection to " + curr.getName());
                         Listener.sendChannelUpadte(curr.getName());
-                        if (!curr.getName().equals("#Community")) Listener.openP2PMessenger(curr.getName());
+//                        if (!curr.getName().equals("#Community")) Listener.openP2PMessenger(curr.getName());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
             }
         });
+
+
 
         imageBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -468,6 +474,8 @@ public class ChatController implements Initializable {
             }
         });
 
+
+
         int numberOfSquares = 40;
         while (numberOfSquares > 0){
             generateAnimation();
@@ -479,23 +487,31 @@ public class ChatController implements Initializable {
 
     }
 
-    public void openMessenger(Message message) {
+    public void openMessenger(Message message, MessageSender sender, MessageReceiver receiver) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                String peer = message.getPeer().equals(Listener.username) ? message.getName() : message.getPeer();
-                logger.info("Open messenger " + message.getName() + " - " + message.getChannel());
+                String peer = message.getName();
+                String host = message.getPeer().getSourceHost();
+                int port = message.getPeer().getSourcePort();
+                logger.info("Open messenger " + peer + " - " + host + " - " + port);
                 Parent root;
                 try {
-                    root = FXMLLoader.load(getClass().getClassLoader().getResource("views/Messenger.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("views/Messenger.fxml"));
+                    root = fxmlLoader.load();
                     Stage stage = new Stage();
-                    stage.setTitle("Messenger");
+                    stage.setTitle(peer);
                     stage.setScene(new Scene(root));
-                    stage.show();
+                    MessengerController controller = fxmlLoader.<MessengerController>getController();
+                    controller.linkSenderAndReceiver(sender, receiver);
+                    controller.setStage(stage);
+                    controller.initialize();
+                    controller.showScene();
+
                     messengers.put(peer, stage);
                     stage.setOnCloseRequest(e -> {
                         try {
-                            Listener.closeP2PMessenger(peer);
+                            Listener.closeP2PConnection(peer);
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -509,7 +525,6 @@ public class ChatController implements Initializable {
                 }
                 finally {
                     logger.info("Messengers - " + messengers.size());
-                    Listener.addPeer(peer);
                 }
             }
         });
@@ -544,13 +559,15 @@ public class ChatController implements Initializable {
 
     public void closeMessenger(Message message) {
         Platform.runLater(() -> {
-            String peer = message.getPeer().equals(Listener.username) ? message.getName() : message.getPeer();
-            Stage stage;
-            if ((stage =  messengers.get(peer)) != null) {
+            String peer = message.getName();
+            String host = message.getPeer().getSourceHost();
+            int port = message.getPeer().getSourcePort();
+            logger.info("Open messenger " + peer + " - " + host + " - " + port);
+            Stage stage = messengers.get(peer);
+            if (stage != null) {
                 stage.close();
             }
             messengers.remove(peer);
-            Listener.removePeer(peer);
             logger.info("Messengers - " + messengers.size());
         });
     }

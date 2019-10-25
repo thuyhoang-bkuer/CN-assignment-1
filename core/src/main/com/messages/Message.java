@@ -17,15 +17,11 @@ public class Message implements Serializable {
     private byte[]          pictureMsg;
     private String          picture;
     private String          channel;
-    private String          peer;
+    private Peer            peer;
 
-    public String getPeer() {
-        return peer;
-    }
+    public Peer getPeer() { return peer; }
 
-    public void setPeer(String peer) {
-        this.peer = peer;
-    }
+    public void setPeer(Peer peer) { this.peer = peer; }
 
     public Message() {}
 

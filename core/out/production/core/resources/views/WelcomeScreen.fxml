@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.messenger.MessengerController">
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.messenger.AnotherController">
    <children>
       <Pane minHeight="590.0" minWidth="593.0" prefHeight="590.0" prefWidth="593.0" style="-fx-background-color: rgba(189, 195, 199,0.8); -fx-min-height: 680; -fx-min-width: 620;" styleClass="bodybg" stylesheets="@../styles/listStyle.css">
          <children>
