@@ -1,6 +1,9 @@
 package com.messenger;
 
 import com.lobby.community.Listener;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -11,12 +14,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +31,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class MessengerController {
@@ -39,7 +46,7 @@ public class MessengerController {
     @FXML private ImageView saveMessageButton;
     @FXML private Label chatUserNameLabel;
     @FXML private ImageView loadMessageIcon;
-
+    @FXML Pane topPane;
 
     private MessageSender messageSender;
     private MessageReceiver messageReceiver;
@@ -65,6 +72,74 @@ public class MessengerController {
         if (!messageReceiver.isAlive()) messageReceiver.start();
     }
 
+
+    public void generateAnimation(){
+        Random rand = new Random();
+        int sizeOfSquare = rand.nextInt(30) + 1;
+        int speedOfSquare = rand.nextInt(10) + 5;
+        int startXPoint = rand.nextInt(500) + 300;
+        int startYPoint = rand.nextInt(40) + 10;
+        int direction = rand.nextInt(5) + 1;
+
+        KeyValue moveXAxis = null;
+        KeyValue moveYAxis = null;
+        Rectangle r1 = null;
+
+        switch (direction){
+            case 1 :
+                // MOVE LEFT TO RIGHT
+                r1 = new Rectangle(0,startYPoint,sizeOfSquare,sizeOfSquare);
+                moveXAxis = new KeyValue(r1.xProperty(), 1040 -  sizeOfSquare);
+                break;
+            case 2 :
+                // MOVE TOP TO BOTTOM
+                r1 = new Rectangle(startXPoint,0,sizeOfSquare,sizeOfSquare);
+                moveYAxis = new KeyValue(r1.yProperty(), 60 - sizeOfSquare);
+                break;
+            case 3 :
+                // MOVE LEFT TO RIGHT, TOP TO BOTTOM
+                r1 = new Rectangle(startXPoint,0,sizeOfSquare,sizeOfSquare);
+                moveXAxis = new KeyValue(r1.xProperty(), 1040 -  sizeOfSquare);
+                moveYAxis = new KeyValue(r1.yProperty(), 80 - sizeOfSquare);
+                break;
+            case 4 :
+                // MOVE BOTTOM TO TOP
+                r1 = new Rectangle(startXPoint,80-sizeOfSquare ,sizeOfSquare,sizeOfSquare);
+                moveYAxis = new KeyValue(r1.xProperty(), 0);
+                break;
+            case 5 :
+                // MOVE RIGHT TO LEFT
+                r1 = new Rectangle(1040-sizeOfSquare,startYPoint,sizeOfSquare,sizeOfSquare);
+                moveXAxis = new KeyValue(r1.xProperty(), 0);
+                break;
+            case 6 :
+                //MOVE RIGHT TO LEFT, BOTTOM TO TOP
+                r1 = new Rectangle(startXPoint,0,sizeOfSquare,sizeOfSquare);
+                moveXAxis = new KeyValue(r1.xProperty(), 1040 -  sizeOfSquare);
+                moveYAxis = new KeyValue(r1.yProperty(), 80 - sizeOfSquare);
+                break;
+
+            default:
+                System.out.println("default");
+        }
+
+        r1.setFill(Color.web("#FDFFFC"));
+        r1.setOpacity(0.2);
+
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(speedOfSquare * 1000), moveXAxis, moveYAxis);
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.setAutoReverse(true);
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.play();
+        try {
+            if (r1.getX()+r1.getWidth() <= 600 && r1.getY() + r1.getHeight() <= 59){
+                topPane.getChildren().add(topPane.getChildren().size() - 1, r1);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 
     public void initialize() {
 
@@ -174,6 +249,12 @@ public class MessengerController {
 //
 //            }
 //        });
+
+        int numberOfSquares = 60;
+        while (numberOfSquares > 0){
+            generateAnimation();
+            numberOfSquares--;
+        }
     }
 
     public void setStage(Stage stage) {
@@ -291,4 +372,6 @@ public class MessengerController {
     public void showScene() {
         stage.show();
     }
+
+
 }

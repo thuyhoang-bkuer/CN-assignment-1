@@ -273,7 +273,7 @@ public class ChatController implements Initializable {
             Image profileImg = new Image(getClass().getClassLoader().getResource(msg.getPicture()).toString(),50,50,false,false);
             TrayNotification tray = new TrayNotification();
             tray.setTitle("A new user has joined!");
-            tray.setMessage(msg.getName() + " has joined the JavaFX Chatroom!");
+            tray.setMessage(msg.getName() + " has joined the chatroom!");
             tray.setRectangleFill(Paint.valueOf("#2C3E50"));
             tray.setAnimationType(AnimationType.POPUP);
             tray.setImage(profileImg);
