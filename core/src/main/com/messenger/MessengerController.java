@@ -65,8 +65,19 @@ public class MessengerController {
         if (!messageReceiver.isAlive()) messageReceiver.start();
     }
 
+    public void setRoot(Pane root) {
+        this.root = root;
+    }
+
 
     public void initialize() {
+
+        if (root != null && stage != null) {
+            messageReceiver.setRoot(root);
+            messageSender.setRoot(root);
+            messageSender.setSender("userName");
+            messageReceiver.setStage(stage);
+        }
 
         themeChangeButton.setValue(Color.RED);
         messageList.setStyle("-fx-background:transparent;");
