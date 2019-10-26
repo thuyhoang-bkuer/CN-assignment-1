@@ -505,6 +505,7 @@ public class ChatController implements Initializable {
                     MessengerController controller = fxmlLoader.<MessengerController>getController();
                     controller.linkSenderAndReceiver(sender, receiver);
                     controller.setStage(stage);
+                    controller.setRoot((Pane) root);
                     controller.initialize();
                     controller.showScene();
 

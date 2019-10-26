@@ -236,7 +236,6 @@ public class MessageReceiver extends Thread {
 							public void run() {
 								
 								Label messageLabel = new Label(finalMessage);
-
 								MessengerController.allMessages.add(sender + " : " + finalMessage);
 								Label senderLabel = new Label(sender);
 								senderLabel.setFont(new Font(10));

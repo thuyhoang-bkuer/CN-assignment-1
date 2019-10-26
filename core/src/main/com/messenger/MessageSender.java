@@ -112,8 +112,7 @@ public class MessageSender extends Thread{
 				
 				Label messageLabel = new Label(messageToSend);
 				Label senderLabel = new Label("You");
-				
-				AnotherController.allMessages.add(sender+" : "+messageToSend);
+				MessengerController.allMessages.add(sender + " : " + messageToSend);
 				senderLabel.setFont(new Font(10));
 				senderLabel.setStyle("-fx-padding:2;-fx-background-color:#2c3e50;");
 				senderLabel.setTextFill(Color.WHITE);
