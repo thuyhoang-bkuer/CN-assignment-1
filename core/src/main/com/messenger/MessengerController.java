@@ -254,21 +254,7 @@ public class MessengerController {
 //                }
             }
         });
-
-//        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-//
-//            @Override
-//            public void handle(WindowEvent event) {
-//                try {
-//                    saveMessages(true);
-//                } catch (IOException | InterruptedException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-//
-//
-//            }
-//        });
+        
 
         int numberOfSquares = 60;
         while (numberOfSquares > 0){

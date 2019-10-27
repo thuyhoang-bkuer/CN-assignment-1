@@ -99,16 +99,6 @@ public class Sender extends Thread {
         out.writeObject(createPMessage);
         out.flush();
 
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("isFile", false);
-//        jsonObject.put("isColor", false);
-//        jsonObject.put("message", messageToSend);
-//        jsonObject.put("sender", sender);
-//        jsonObject.put("file", null);
-//
-//        OutputStream outToServer = client.getOutputStream();
-//        DataOutputStream out = new DataOutputStream(outToServer);
-//        out.writeUTF(jsonObject.toJSONString());
         Platform.runLater(new Runnable() {
 
             @Override
@@ -156,7 +146,6 @@ public class Sender extends Thread {
     public void sendFile(byte[] byteArray, File file) throws IOException {
         //this.messageToSend = message;
         logger.info("Enter sendFile()");
-//		
         FileInputStream fileInputStream = new FileInputStream(file);
         BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
         bufferedInputStream.read(byteArray, 0, byteArray.length);
@@ -169,12 +158,6 @@ public class Sender extends Thread {
         pMessage.setType(PMessageType.FILE);
         pMessage.setFile(Base64.getEncoder().encode(byteArray));
 
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("isFile", true);
-//        jsonObject.put("isColor", false);
-//        jsonObject.put("name", fileName);
-//        jsonObject.put("sender", sender);
-//        jsonObject.put("fileStream", Base64.getEncoder().encodeToString(byteArray));
         ObjectOutputStream out = new ObjectOutputStream(os);
         out.writeObject(pMessage);
         out.flush();
@@ -185,7 +168,6 @@ public class Sender extends Thread {
             public void run() {
 
                 Label messageLabel = new Label(fileName + " is sent");
-                //messageLabel.setPadding(new Insets(10,10,10,10));
                 messageLabel.setFont(new Font(15));
                 messageLabel.setStyle("-fx-background-color:#2ecc71;-fx-padding:10;-fx-background-radius:8;");
                 messageLabel.setTextFill(Color.WHITE);
@@ -224,10 +206,6 @@ public class Sender extends Thread {
 
     public void sendBackgroundColor(String color) throws IOException {
         logger.info("Enter sendBackgroundColor()");
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("isColor", true);
-//        jsonObject.put("isFile", false);
-//        jsonObject.put("color", color);
 
         PMessage pMessage = new PMessage();
         pMessage.setSender(sender);
@@ -259,10 +237,8 @@ public class Sender extends Thread {
 
     public void setRoot(Pane root) {
         this.root = root;
-        //message = (Label) root.lookup("#message");
         messageListView = (ScrollPane) root.lookup("#messageList");
         messageListView.setFitToWidth(true);
-        //messageListView.setBackground(new Background(BackgroundFill));
         messageListView.setStyle("-fx-control-inner-background: black;");
     }
 
