@@ -12,11 +12,7 @@
 
 <Pane maxHeight="700.0" maxWidth="700.0" minHeight="500.0" minWidth="500.0" prefHeight="600.0" prefWidth="600.0" styleClass="chatbodybg" stylesheets="@../styles/listStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.messenger.MessengerController">
     <children>
-          <ScrollPane fx:id="messageList" layoutX="13.0" layoutY="59.0" maxHeight="600.0" maxWidth="690.0" minHeight="400.0" minWidth="490.0" opacity="0.26" prefHeight="456.0" prefWidth="574.0" style="-fx-hbar-policy: never; -fx-vbar-policy: never;" stylesheets="@../styles/listStyle.css">
-              <styleClass>
-                  <String fx:value="viewport" />
-                  <String fx:value="viewport" />
-              </styleClass>
+          <ScrollPane fx:id="messageList" layoutX="13.0" layoutY="59.0" maxHeight="600.0" maxWidth="690.0" minHeight="400.0" minWidth="490.0" opacity="0.7" prefHeight="456.0" prefWidth="574.0" style="-fx-hbar-policy: never; -fx-vbar-policy: never;" styleClass="viewport" stylesheets="@../styles/listStyle.css">
          <padding>
             <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
          </padding>
@@ -52,7 +48,7 @@
                 </ImageView>
             </children>
         </Pane>
-        <Pane fx:id="topPane" maxHeight="299.0" maxWidth="700.0" minHeight="39.0" minWidth="500.0" prefHeight="59.0" prefWidth="600.0" styleClass="topPanel" stylesheets="@../styles/listStyle.css">
+        <Pane fx:id="topPane" maxHeight="299.0" maxWidth="700.0" minHeight="8.0" minWidth="500.0" prefHeight="48.0" prefWidth="600.0" styleClass="topPanel" stylesheets="@../styles/listStyle.css">
             <children>
                 <Label fx:id="listeningAtLabel" layoutX="21.0" layoutY="6.0" style="-fx-padding: 5; -fx-background-radius: 2;" text="Label" textFill="WHITE" />
                 <Label fx:id="chatUserNameLabel" layoutX="216.0" layoutY="6.0" style="-fx-padding: 5; -fx-background-radius: 2;" text="Label" textFill="WHITE" />

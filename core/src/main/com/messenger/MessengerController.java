@@ -146,7 +146,7 @@ public class MessengerController {
         timeline.getKeyFrames().add(keyFrame);
         timeline.play();
         try {
-            if (r1.getX()+r1.getWidth() <= 600 && r1.getY() + r1.getHeight() <= 59){
+            if (r1.getX()+r1.getWidth() <= 600 && r1.getY() + r1.getHeight() <= 48){
                 topPane.getChildren().add(topPane.getChildren().size() - 1, r1);
             }
         }catch (Exception e){
