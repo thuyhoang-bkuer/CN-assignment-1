@@ -1,7 +1,7 @@
 package com.lobby.community;
 
-import com.messages.Status;
-import com.messages.User;
+import com.protocols.Status;
+import com.protocols.User;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.ListCell;

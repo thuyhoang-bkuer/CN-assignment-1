@@ -1,7 +1,7 @@
 package com.messenger;
 
-import com.messages.PMessage;
-import com.messages.PMessageType;
+import com.protocols.PMessage;
+import com.protocols.PMessageType;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -106,7 +106,6 @@ public class Sender extends Thread {
 
                 Label messageLabel = new Label(messageToSend);
                 Label senderLabel = new Label("You");
-//				MessengerController.allMessages.add(sender + " : " + messageToSend);
                 senderLabel.setFont(new Font(10));
                 senderLabel.setStyle("-fx-padding:2;-fx-background-color:#2c3e50;");
                 senderLabel.setTextFill(Color.WHITE);

@@ -1,7 +1,7 @@
 package com.lobby.community;
 
 import com.lobby.login.LoginController;
-import com.messages.*;
+import com.protocols.*;
 import com.messenger.Receiver;
 import com.messenger.Sender;
 import org.slf4j.Logger;
@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Random;
 
-import static com.messages.SMessageType.CONNECTED;
+import static com.protocols.SMessageType.CONNECTED;
 
 public class Listener implements Runnable{
 

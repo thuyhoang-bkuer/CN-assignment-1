@@ -1,7 +1,7 @@
 package com.server;
 
 import com.exception.DuplicateUsernameException;
-import com.messages.*;
+import com.protocols.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

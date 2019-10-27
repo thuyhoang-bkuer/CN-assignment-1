@@ -1,9 +1,8 @@
 package com.messenger;
-import com.messages.PMessage;
+import com.protocols.PMessage;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -11,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -19,18 +17,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Optional;
 
 import java.util.Random;
-import java.util.ResourceBundle;
 
 public class MessengerController {
 
@@ -212,7 +206,7 @@ public class MessengerController {
                 }
             }
         });
-        
+
 
         int numberOfSquares = 60;
         while (numberOfSquares > 0){
@@ -233,10 +227,6 @@ public class MessengerController {
 
     public void saveFile(String filePath, byte[] byteArray, boolean isExiting) throws IOException {
 
-        logger.info("From OutSide");
-        for (byte b : byteArray) {
-            System.out.print((char) b);
-        }
         FileOutputStream fileOutputStream = new FileOutputStream(filePath);
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
         bufferedOutputStream.write(byteArray, 0, byteArray.length);

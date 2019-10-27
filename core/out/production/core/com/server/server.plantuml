@@ -6,6 +6,7 @@ title __SERVER's Class Diagram__\n
     class com.server.Server {
         {static} ~ logger : Logger
         {static} - PORT : int
+        {static} - addresses : HashMap<String, InetAddress>
         {static} - listener : ServerSocket
         {static} - names : HashMap<String, User>
         {static} - users : ArrayList<User>
@@ -35,6 +36,8 @@ title __SERVER's Class Diagram__\n
         - changeStatus()
         - checkDuplicateUsername()
         - closeConnections()
+        - closeP2P()
+        - openP2P()
         - removeFromList()
         - sendNotification()
         - write()

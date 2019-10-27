@@ -6,6 +6,7 @@ title __SERVER's Class Diagram__\n
     class com.server.Server {
         {static} ~ logger : Logger
         {static} - PORT : int
+        {static} - addresses : HashMap<String, InetAddress>
         {static} - listener : ServerSocket
         {static} - names : HashMap<String, User>
         {static} - users : ArrayList<User>
@@ -35,6 +36,8 @@ title __SERVER's Class Diagram__\n
         - changeStatus()
         - checkDuplicateUsername()
         - closeConnections()
+        - closeP2P()
+        - openP2P()
         - removeFromList()
         - sendNotification()
         - write()
@@ -67,7 +70,7 @@ title __SERVER's Class Diagram__\n
 
   com.server.Server .up.|> java.lang.Runnable
   com.server.Server +-down- com.server.Server.Handler
-  com.server.Server.Handler o-- com.messages.User : user
+  com.server.Server.Handler o-- com.protocols.User : user
   com.server.ServerController .up.|> javafx.fxml.Initializable
   com.server.ServerController o-- com.server.Server : server
   com.server.ServerLauncher -up-|> javafx.application.Application

@@ -6,10 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Base64;
 
-import com.messages.PMessage;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.protocols.PMessage;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;

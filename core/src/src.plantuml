@@ -1,0 +1,282 @@
+@startuml
+
+title __CORE's Class Diagram__\n
+
+  namespace com.exception {
+    class com.exception.DuplicateUsernameException {
+    }
+  }
+  
+
+  namespace com.lobby.community {
+    class com.lobby.community.CellRenderer {
+    }
+  }
+  
+
+  namespace com.lobby.community {
+    class com.lobby.community.ChatController {
+    }
+  }
+  
+
+  namespace com.lobby.community {
+    class com.lobby.community.Listener {
+    }
+  }
+  
+
+  namespace com.lobby.login {
+    class com.lobby.login.LoginController {
+    }
+  }
+  
+
+  namespace com.lobby.login {
+    class com.lobby.login.MainLauncher {
+    }
+  }
+  
+
+  namespace com.lobby.util {
+    class com.lobby.util.ImageUtil {
+    }
+  }
+  
+
+  namespace com.lobby.util {
+    class com.lobby.util.ResizeHelper {
+    }
+  }
+  
+
+  namespace com.lobby.util {
+    class com.lobby.util.VoicePlayback {
+    }
+  }
+  
+
+  namespace com.lobby.util {
+    class com.lobby.util.VoiceRecorder {
+    }
+  }
+  
+
+  namespace com.lobby.util {
+    class com.lobby.util.VoiceUtil {
+    }
+  }
+  
+
+  namespace com.messenger {
+    class com.messenger.MessengerController {
+    }
+  }
+  
+
+  namespace com.messenger {
+    class com.messenger.Receiver {
+    }
+  }
+  
+
+  namespace com.messenger {
+    class com.messenger.Sender {
+    }
+  }
+  
+
+  namespace com.protocols {
+    class com.protocols.PMessage {
+    }
+  }
+  
+
+  namespace com.protocols {
+    enum PMessageType {
+    }
+  }
+  
+
+  namespace com.protocols {
+    class com.protocols.Peer {
+    }
+  }
+  
+
+  namespace com.protocols {
+    class com.protocols.SMessage {
+    }
+  }
+  
+
+  namespace com.protocols {
+    enum SMessageType {
+    }
+  }
+  
+
+  namespace com.protocols {
+    enum Status {
+    }
+  }
+  
+
+  namespace com.protocols {
+    class com.protocols.User {
+    }
+  }
+  
+
+  namespace com.protocols {
+    namespace bubble {
+      class com.protocols.bubble.Bubble {
+      }
+    }
+  }
+  
+
+  namespace com.protocols {
+    namespace bubble {
+      enum BubbleSpec {
+      }
+    }
+  }
+  
+
+  namespace com.protocols {
+    namespace bubble {
+      class com.protocols.bubble.BubbledLabel {
+      }
+    }
+  }
+  
+
+  namespace com.server {
+    class com.server.Server {
+    }
+  }
+  
+
+  namespace com.server {
+    class com.server.ServerController {
+    }
+  }
+  
+
+  namespace com.server {
+    class com.server.ServerLauncher {
+    }
+  }
+  
+
+  namespace com.traynotifications.animations {
+    class com.traynotifications.animations.AnimationProvider {
+    }
+  }
+  
+
+  namespace com.traynotifications.animations {
+    enum AnimationType {
+    }
+  }
+  
+
+  namespace com.traynotifications.animations {
+    class com.traynotifications.animations.FadeAnimation {
+    }
+  }
+  
+
+  namespace com.traynotifications.animations {
+    class com.traynotifications.animations.PopupAnimation {
+    }
+  }
+  
+
+  namespace com.traynotifications.animations {
+    class com.traynotifications.animations.SlideAnimation {
+    }
+  }
+  
+
+  namespace com.traynotifications.animations {
+    interface com.traynotifications.animations.TrayAnimation {
+    }
+  }
+  
+
+  namespace com.traynotifications.models {
+    class com.traynotifications.models.CustomStage {
+    }
+  }
+  
+
+  namespace com.traynotifications.models {
+    class com.traynotifications.models.Location {
+    }
+  }
+  
+
+  namespace com.traynotifications.notification {
+    enum NotificationType {
+    }
+  }
+  
+
+  namespace com.traynotifications.notification {
+    class com.traynotifications.notification.TrayNotification {
+    }
+  }
+  
+
+  com.lobby.community.CellRenderer .up.|> javafx.util.Callback
+  com.lobby.community.ChatController .up.|> javafx.fxml.Initializable
+  com.lobby.community.Listener .up.|> java.lang.Runnable
+  com.lobby.community.Listener o-- com.lobby.community.ChatController : controller
+  com.lobby.login.LoginController .up.|> javafx.fxml.Initializable
+  com.lobby.login.MainLauncher -up-|> javafx.application.Application
+  com.lobby.util.VoicePlayback -up-|> com.lobby.util.VoiceUtil
+  com.lobby.util.VoiceRecorder -up-|> com.lobby.util.VoiceUtil
+  com.messenger.MessengerController o-- com.messenger.Receiver : receiver
+  com.messenger.MessengerController o-- com.messenger.Sender : sender
+  com.messenger.Sender o-- com.messenger.MessengerController : controller
+  com.protocols.PMessage .up.|> java.io.Serializable
+  com.protocols.PMessage o-- com.protocols.PMessageType : type
+  com.protocols.Peer .up.|> java.io.Serializable
+  com.protocols.SMessage .up.|> java.io.Serializable
+  com.protocols.SMessage o-- com.protocols.Peer : peer
+  com.protocols.SMessage o-- com.protocols.Status : status
+  com.protocols.SMessage o-- com.protocols.SMessageType : type
+  com.protocols.User .up.|> java.io.Serializable
+  com.protocols.User o-- com.protocols.Status : status
+  com.protocols.bubble.Bubble -up-|> javafx.scene.shape.Path
+  com.protocols.bubble.BubbledLabel -up-|> javafx.scene.control.Label
+  com.protocols.bubble.BubbledLabel o-- com.protocols.bubble.BubbleSpec : bs
+  com.server.Server .up.|> java.lang.Runnable
+  com.server.ServerController .up.|> javafx.fxml.Initializable
+  com.server.ServerController o-- com.server.Server : server
+  com.server.ServerLauncher -up-|> javafx.application.Application
+  com.traynotifications.animations.FadeAnimation .up.|> com.traynotifications.animations.TrayAnimation
+  com.traynotifications.animations.FadeAnimation o-- com.traynotifications.models.CustomStage : stage
+  com.traynotifications.animations.PopupAnimation .up.|> com.traynotifications.animations.TrayAnimation
+  com.traynotifications.animations.PopupAnimation o-- com.traynotifications.models.CustomStage : stage
+  com.traynotifications.animations.SlideAnimation .up.|> com.traynotifications.animations.TrayAnimation
+  com.traynotifications.animations.SlideAnimation o-- com.traynotifications.models.CustomStage : stage
+  com.traynotifications.models.CustomStage -up-|> javafx.stage.Stage
+  com.traynotifications.models.CustomStage o-- com.traynotifications.models.Location : bottomRight
+  com.traynotifications.notification.TrayNotification o-- com.traynotifications.animations.AnimationProvider : animationProvider
+  com.traynotifications.notification.TrayNotification o-- com.traynotifications.animations.AnimationType : animationType
+  com.traynotifications.notification.TrayNotification o-- com.traynotifications.animations.TrayAnimation : animator
+  com.traynotifications.notification.TrayNotification o-- com.traynotifications.notification.NotificationType : notificationType
+  com.traynotifications.notification.TrayNotification o-- com.traynotifications.models.CustomStage : stage
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

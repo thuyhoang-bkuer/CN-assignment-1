@@ -26,12 +26,12 @@
 	-fx-background-size:100% 100%;
 }
 .chatbodybg{
-	-fx-background-color:  linear-gradient(to right, #417e56, #00615b, #004251, #0d2436, #080314);
+	-fx-background-color: linear-gradient(to bottom right, rgba(255,235,209,1) 0%, rgba(255,205,248,1) 50%, rgba(181,239,251,1) 100%);
 	-fx-background-size:100% 100%;
 	 
 }
 .scroll-pane > .viewport {
-   -fx-background-color: orange;
+   -fx-background-color: grey;
    -fx-border-color:transparent;
 
    -fx-background-size: 100% 100%;
