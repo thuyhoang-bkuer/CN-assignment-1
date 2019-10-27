@@ -69,7 +69,7 @@ title __MAIN's Class Diagram__\n
   
 
   namespace com.messages {
-    class com.messages.Message {
+    class com.messages.SMessage {
     }
   }
   
@@ -202,9 +202,9 @@ title __MAIN's Class Diagram__\n
   com.client.login.MainLauncher -up-|> javafx.application.Application
   com.client.util.VoicePlayback -up-|> com.client.util.VoiceUtil
   com.client.util.VoiceRecorder -up-|> com.client.util.VoiceUtil
-  com.messages.Message .up.|> java.io.Serializable
-  com.messages.Message o-- com.messages.Status : status
-  com.messages.Message o-- com.messages.MessageType : type
+  com.messages.SMessage .up.|> java.io.Serializable
+  com.messages.SMessage o-- com.messages.Status : status
+  com.messages.SMessage o-- com.messages.SMessageType : type
   com.messages.User .up.|> java.io.Serializable
   com.messages.User o-- com.messages.Status : status
   com.messages.bubble.Bubble -up-|> javafx.scene.shape.Path

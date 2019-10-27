@@ -5,14 +5,14 @@ import com.lobby.util.ImageUtil;
 import com.lobby.util.VoicePlayback;
 import com.lobby.util.VoiceRecorder;
 import com.lobby.util.VoiceUtil;
-import com.messages.Message;
-import com.messages.MessageType;
+import com.messages.SMessage;
+import com.messages.SMessageType;
 import com.messages.Status;
 import com.messages.User;
 import com.messages.bubble.BubbleSpec;
 import com.messages.bubble.BubbledLabel;
-import com.messenger.MessageReceiver;
-import com.messenger.MessageSender;
+import com.messenger.Receiver;
+import com.messenger.Sender;
 import com.messenger.MessengerController;
 import com.traynotifications.animations.AnimationType;
 import com.traynotifications.notification.TrayNotification;
@@ -39,7 +39,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -117,7 +116,7 @@ public class ChatController implements Initializable {
 
 
 
-    public synchronized void addToChat(Message msg) {
+    public synchronized void addToChat(SMessage msg) {
         ImageUtil imageUtil = new ImageUtil();
         Task<HBox> othersMessages = new Task<HBox>() {
             @Override
@@ -134,12 +133,12 @@ public class ChatController implements Initializable {
                 channelImage.setFitHeight(16);
 
                 BubbledLabel bl6 = new BubbledLabel();
-                if (msg.getType() == MessageType.VOICE){
+                if (msg.getType() == SMessageType.VOICE){
                     ImageView imageview = new ImageView(new Image(getClass().getClassLoader().getResource("images/sound.png").toString()));
                     bl6.setGraphic(imageview);
                     bl6.setText("Sent a voice message!");
                     VoicePlayback.playAudio(msg.getVoiceMsg());
-                } else if (msg.getType() == MessageType.PICTURE) {
+                } else if (msg.getType() == SMessageType.PICTURE) {
 
                     Platform.runLater(() -> {
                         ImageView picture;
@@ -191,12 +190,12 @@ public class ChatController implements Initializable {
                 channelImage.setFitHeight(16);
 
                 BubbledLabel bl6 = new BubbledLabel();
-                if (msg.getType() == MessageType.VOICE){
+                if (msg.getType() == SMessageType.VOICE){
                     ImageView imageview = new ImageView(new Image(getClass().getClassLoader().getResource("images/sound.png").toString()));
                     bl6.setGraphic(imageview);
                     bl6.setText("Sent a voice message!");
                     VoicePlayback.playAudio(msg.getVoiceMsg());
-                } else if (msg.getType() == MessageType.PICTURE) {
+                } else if (msg.getType() == SMessageType.PICTURE) {
                     Platform.runLater(() -> {
                         ImageView picture;
                         imageUtil.imageDecode(msg.getPictureMsg());
@@ -253,7 +252,7 @@ public class ChatController implements Initializable {
         Platform.runLater(() -> onlineCountLabel.setText(usercount));
     }
 
-    public void setUserList(Message msg) {
+    public void setUserList(SMessage msg) {
         logger.info("setUserList() method Enter");
         Platform.runLater(() -> {
             ObservableList<User> users = FXCollections.observableList(msg.getUsers());
@@ -268,7 +267,7 @@ public class ChatController implements Initializable {
     }
 
     /* Displays Notification when a user joins */
-    public void newUserNotification(Message msg) {
+    public void newUserNotification(SMessage msg) {
         Platform.runLater(() -> {
             Image profileImg = new Image(getClass().getClassLoader().getResource(msg.getPicture()).toString(),50,50,false,false);
             TrayNotification tray = new TrayNotification();
@@ -302,7 +301,7 @@ public class ChatController implements Initializable {
     }
 
     /* Method to display server messages */
-    public synchronized void addAsServer(Message msg) {
+    public synchronized void addAsServer(SMessage msg) {
         Task<HBox> task = new Task<HBox>() {
             @Override
             public HBox call() throws Exception {
@@ -487,13 +486,13 @@ public class ChatController implements Initializable {
 
     }
 
-    public void openMessenger(Message message, MessageSender sender, MessageReceiver receiver) {
+    public void openMessenger(SMessage sMessage, Sender sender, Receiver receiver) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                String peer = message.getName();
-                String host = message.getPeer().getSourceHost();
-                int port = message.getPeer().getSourcePort();
+                String peer = sMessage.getName();
+                String host = sMessage.getPeer().getSourceHost();
+                int port = sMessage.getPeer().getSourcePort();
                 logger.info("Open messenger " + peer + " - " + host + " - " + port);
                 Parent root;
                 try {
@@ -558,11 +557,11 @@ public class ChatController implements Initializable {
     }
 
 
-    public void closeMessenger(Message message) {
+    public void closeMessenger(SMessage sMessage) {
         Platform.runLater(() -> {
-            String peer = message.getName();
-            String host = message.getPeer().getSourceHost();
-            int port = message.getPeer().getSourcePort();
+            String peer = sMessage.getName();
+            String host = sMessage.getPeer().getSourceHost();
+            int port = sMessage.getPeer().getSourcePort();
             logger.info("Open messenger " + peer + " - " + host + " - " + port);
             Stage stage = messengers.get(peer);
             if (stage != null) {

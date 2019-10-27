@@ -2,19 +2,17 @@ package com.lobby.community;
 
 import com.lobby.login.LoginController;
 import com.messages.*;
-import com.messenger.MessageReceiver;
-import com.messenger.MessageSender;
-import com.messenger.MessengerController;
+import com.messenger.Receiver;
+import com.messenger.Sender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import static com.messages.MessageType.CONNECTED;
+import static com.messages.SMessageType.CONNECTED;
 
 public class Listener implements Runnable{
 
@@ -71,46 +69,46 @@ public class Listener implements Runnable{
             connect();
             logger.info("Sockets in and out ready!");
             while (socket.isConnected()) {
-                Message message = null;
-                message = (Message) input.readObject();
+                SMessage sMessage = null;
+                sMessage = (SMessage) input.readObject();
 
-                if (message != null) {
-                    logger.debug("Message recieved:" + message.getMsg() + " MessageType:" + message.getType() + " Name:" + message.getName() + " Channel: " + message.getChannel());
-                    switch (message.getType()) {
+                if (sMessage != null) {
+                    logger.debug("Message recieved:" + sMessage.getMsg() + " MessageType:" + sMessage.getType() + " Name:" + sMessage.getName() + " Channel: " + sMessage.getChannel());
+                    switch (sMessage.getType()) {
                         case USER:
-                            controller.addToChat(message);
+                            controller.addToChat(sMessage);
                             break;
                         case VOICE:
-                            logger.info(message.getType() + " - " + message.getVoiceMsg().length);
-                            controller.addToChat(message);
+                            logger.info(sMessage.getType() + " - " + sMessage.getVoiceMsg().length);
+                            controller.addToChat(sMessage);
                             break;
                         case NOTIFICATION:
-                            controller.newUserNotification(message);
+                            controller.newUserNotification(sMessage);
                             break;
                         case SERVER:
-                            controller.addAsServer(message);
+                            controller.addAsServer(sMessage);
                             break;
                         case CONNECTED:
-                            controller.setUserList(message);
+                            controller.setUserList(sMessage);
                             break;
                         case DISCONNECTED:
-                            controller.setUserList(message);
+                            controller.setUserList(sMessage);
                             break;
                         case STATUS:
-                            controller.setUserList(message);
+                            controller.setUserList(sMessage);
                             break;
                         case PICTURE:
-                            controller.addToChat(message);
+                            controller.addToChat(sMessage);
                             break;
                         case OPENP2P:
-                            if (!peers.containsKey(message.getName()))
-                                openP2PConnection(message.getName());
-                            waitForConnection(message);
+                            if (!peers.containsKey(sMessage.getName()))
+                                openP2PConnection(sMessage.getName());
+                            waitForConnection(sMessage);
                             break;
                         case CLOSEP2P:
-                            if (peers.containsKey(message.getName()))
-                                closeP2PConnection(message.getName());
-                            controller.closeMessenger(message);
+                            if (peers.containsKey(sMessage.getName()))
+                                closeP2PConnection(sMessage.getName());
+                            controller.closeMessenger(sMessage);
                         case CHANNEL:
                             break;
                     }
@@ -125,10 +123,10 @@ public class Listener implements Runnable{
 
     }
 
-    private void waitForConnection(Message message) throws IOException {
-        controller.openMessenger(message,
-                new MessageSender(message.getPeer().getSourceHost(), peers.get(message.getName())),
-                new MessageReceiver(message.getPeer().getSourcePort()));
+    private void waitForConnection(SMessage sMessage) throws IOException {
+        controller.openMessenger(sMessage,
+                new Sender(sMessage.getPeer().getSourceHost(), peers.get(sMessage.getName())),
+                new Receiver(sMessage.getPeer().getSourcePort()));
     }
 
     public static void closeP2PConnection(String name) throws IOException {
@@ -139,11 +137,11 @@ public class Listener implements Runnable{
             peer.setSourceHost(hostname);
             peer.setSourcePort(peers.get(name));
 
-            Message createMessage = new Message();
-            createMessage.setName(username);
-            createMessage.setType(MessageType.CLOSEP2P);
-            createMessage.setPeer(peer);
-            oos.writeObject(createMessage);
+            SMessage createSMessage = new SMessage();
+            createSMessage.setName(username);
+            createSMessage.setType(SMessageType.CLOSEP2P);
+            createSMessage.setPeer(peer);
+            oos.writeObject(createSMessage);
             oos.flush();
 
             peers.remove(name);
@@ -163,24 +161,24 @@ public class Listener implements Runnable{
 
             peers.put(name,randPort);
 
-            Message createMessage = new Message();
-            createMessage.setName(username);
-            createMessage.setType(MessageType.OPENP2P);
-            createMessage.setPeer(peer);
-            oos.writeObject(createMessage);
+            SMessage createSMessage = new SMessage();
+            createSMessage.setName(username);
+            createSMessage.setType(SMessageType.OPENP2P);
+            createSMessage.setPeer(peer);
+            oos.writeObject(createSMessage);
             oos.flush();
         }
     }
 
 
     public static void sendPicture(byte[] base64Image) throws IOException{
-        Message createMessage = new Message();
-        createMessage.setName(username);
-        createMessage.setType(MessageType.PICTURE);
-        createMessage.setStatus(Status.AWAY);
-        createMessage.setPictureMsg(base64Image);
-        createMessage.setPicture(picture);
-        oos.writeObject(createMessage);
+        SMessage createSMessage = new SMessage();
+        createSMessage.setName(username);
+        createSMessage.setType(SMessageType.PICTURE);
+        createSMessage.setStatus(Status.AWAY);
+        createSMessage.setPictureMsg(base64Image);
+        createSMessage.setPicture(picture);
+        oos.writeObject(createSMessage);
         oos.flush();
     }
 
@@ -190,11 +188,11 @@ public class Listener implements Runnable{
      */
     public static void sendChannelUpadte(String updatedChannel) throws IOException {
         channel = updatedChannel;
-        Message createMessage = new Message();
-        createMessage.setName(username);
-        createMessage.setType(MessageType.CHANNEL);
-        createMessage.setChannel(updatedChannel);
-        oos.writeObject(createMessage);
+        SMessage createSMessage = new SMessage();
+        createSMessage.setName(username);
+        createSMessage.setType(SMessageType.CHANNEL);
+        createSMessage.setChannel(updatedChannel);
+        oos.writeObject(createSMessage);
         oos.flush();
     }
 
@@ -202,13 +200,13 @@ public class Listener implements Runnable{
      * @param msg - The message which the user generates
      */
     public static void send(String msg) throws IOException {
-        Message createMessage = new Message();
-        createMessage.setName(username);
-        createMessage.setType(MessageType.USER);
-        createMessage.setStatus(Status.AWAY);
-        createMessage.setMsg(msg);
-        createMessage.setPicture(picture);
-        oos.writeObject(createMessage);
+        SMessage createSMessage = new SMessage();
+        createSMessage.setName(username);
+        createSMessage.setType(SMessageType.USER);
+        createSMessage.setStatus(Status.AWAY);
+        createSMessage.setMsg(msg);
+        createSMessage.setPicture(picture);
+        oos.writeObject(createSMessage);
         oos.flush();
     }
 
@@ -216,13 +214,13 @@ public class Listener implements Runnable{
  * @param msg - The message which the user generates
  */
     public static void sendVoiceMessage(byte[] audio) throws IOException {
-        Message createMessage = new Message();
-        createMessage.setName(username);
-        createMessage.setType(MessageType.VOICE);
-        createMessage.setStatus(Status.AWAY);
-        createMessage.setVoiceMsg(audio);
-        createMessage.setPicture(picture);
-        oos.writeObject(createMessage);
+        SMessage createSMessage = new SMessage();
+        createSMessage.setName(username);
+        createSMessage.setType(SMessageType.VOICE);
+        createSMessage.setStatus(Status.AWAY);
+        createSMessage.setVoiceMsg(audio);
+        createSMessage.setPicture(picture);
+        oos.writeObject(createSMessage);
         oos.flush();
     }
 
@@ -230,23 +228,23 @@ public class Listener implements Runnable{
  * @param msg - The message which the user generates
  */
     public static void sendStatusUpdate(Status status) throws IOException {
-        Message createMessage = new Message();
-        createMessage.setName(username);
-        createMessage.setType(MessageType.STATUS);
-        createMessage.setStatus(status);
-        createMessage.setPicture(picture);
-        oos.writeObject(createMessage);
+        SMessage createSMessage = new SMessage();
+        createSMessage.setName(username);
+        createSMessage.setType(SMessageType.STATUS);
+        createSMessage.setStatus(status);
+        createSMessage.setPicture(picture);
+        oos.writeObject(createSMessage);
         oos.flush();
     }
 
     /* This method is used to send a connecting message */
     public static void connect() throws IOException {
-        Message createMessage = new Message();
-        createMessage.setName(username);
-        createMessage.setType(CONNECTED);
-        createMessage.setMsg(HASCONNECTED);
-        createMessage.setPicture(picture);
-        oos.writeObject(createMessage);
+        SMessage createSMessage = new SMessage();
+        createSMessage.setName(username);
+        createSMessage.setType(CONNECTED);
+        createSMessage.setMsg(HASCONNECTED);
+        createSMessage.setPicture(picture);
+        oos.writeObject(createSMessage);
     }
 
 }

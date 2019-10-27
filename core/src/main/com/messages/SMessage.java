@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Message implements Serializable {
+public class SMessage implements Serializable {
 
     private String          name;
-    private MessageType     type;
+    private SMessageType type;
     private String          msg;
     private int             count;
     private ArrayList<User> list;
@@ -23,7 +23,7 @@ public class Message implements Serializable {
 
     public void setPeer(Peer peer) { this.peer = peer; }
 
-    public Message() {}
+    public SMessage() {}
 
     public byte[] getPictureMsg() {
         return pictureMsg;
@@ -63,11 +63,11 @@ public class Message implements Serializable {
         this.msg = msg;
     }
 
-    public MessageType getType() {
+    public SMessageType getType() {
         return type;
     }
 
-    public void setType(MessageType type) {
+    public void setType(SMessageType type) {
         this.type = type;
     }
 

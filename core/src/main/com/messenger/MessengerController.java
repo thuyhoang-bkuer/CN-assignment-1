@@ -1,16 +1,10 @@
 package com.messenger;
-
-import com.lobby.community.Listener;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import com.messages.PMessage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -21,35 +15,46 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import javafx.util.Duration;
+
+//import javafx.stage.WindowEvent;
+//import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Optional;
+
 import java.util.Random;
 import java.util.ResourceBundle;
 
 public class MessengerController {
 
-    @FXML private Label listeningAtLabel;
-    @FXML private Label connectedToLabel;
-    @FXML private ImageView messageSendButton;
-    @FXML private TextArea messageSendBox;
-    @FXML private ImageView fileAttachButton;
-    @FXML private ColorPicker themeChangeButton;
-    @FXML private ScrollPane messageList;
-    @FXML private ImageView saveMessageButton;
-    @FXML private Label chatUserNameLabel;
-    @FXML private ImageView loadMessageIcon;
-    @FXML Pane topPane;
+    @FXML
+    private Label listeningAtLabel;
+    @FXML
+    private Label connectedToLabel;
+    @FXML
+    private ImageView messageSendButton;
+    @FXML
+    private TextArea messageSendBox;
+    @FXML
+    private ImageView fileAttachButton;
+    @FXML
+    private ColorPicker themeChangeButton;
+    @FXML
+    private ScrollPane messageList;
+    @FXML
+    private ImageView saveMessageButton;
+    @FXML
+    private Label chatUserNameLabel;
+    @FXML
+    private ImageView loadMessageIcon;
 
-    private MessageSender messageSender;
-    private MessageReceiver messageReceiver;
+
+    private Sender sender;
+    private Receiver receiver;
     private Pane root;
     private Stage stage;
     public static ArrayList<String> allMessages;
@@ -60,16 +65,16 @@ public class MessengerController {
     Logger logger = LoggerFactory.getLogger(MessengerController.class);
 
     public MessengerController() {
-        this.messageSender = null;
-        this.messageReceiver = null;
+        this.sender = null;
+        this.receiver = null;
     }
 
-    public void linkSenderAndReceiver(MessageSender sender, MessageReceiver receiver) {
-        this.messageSender = sender;
-        this.messageReceiver = receiver;
+    public void linkSenderAndReceiver(Sender sender, Receiver receiver) {
+        this.sender = sender;
+        this.receiver = receiver;
 
-        if (!messageSender.isAlive()) messageSender.start();
-        if (!messageReceiver.isAlive()) messageReceiver.start();
+        if (!this.sender.isAlive()) this.sender.start();
+        if (!this.receiver.isAlive()) this.receiver.start();
     }
 
     public void setRoot(Pane root) {
@@ -148,10 +153,10 @@ public class MessengerController {
     public void initialize() {
 
         if (root != null && stage != null) {
-            messageReceiver.setRoot(root);
-            messageSender.setRoot(root);
-            messageSender.setSender("userName");
-            messageReceiver.setStage(stage);
+            receiver.setRoot(root);
+            sender.setRoot(root);
+            sender.setSender("userName");
+            receiver.setStage(stage);
         }
 
         themeChangeButton.setValue(Color.RED);
@@ -162,13 +167,11 @@ public class MessengerController {
             public void handle(Event arg0) {
                 String message = messageSendBox.getText().toString();
                 try {
-                    if(message.length()>0)
-                    {
-                        messageSender.sendMessage(message);
+                    if (message.length() > 0) {
+                        sender.sendMessage(message);
                     }
-                    if(file!=null)
-                    {
-                        messageSender.sendFile(byteArray,file);
+                    if (file != null) {
+                        sender.sendFile(byteArray, file);
                         file = null;
                     }
                     messageSendBox.setText("");
@@ -185,11 +188,14 @@ public class MessengerController {
             public void handle(Event event) {
                 fileChooser = new FileChooser();
                 file = fileChooser.showOpenDialog(stage);
-                if(file!=null)
-                {
+                if (file != null) {
                     String fileName = file.getName();
-                    byteArray  = new byte [(int)file.length()];
-
+                    byteArray = new byte[(int) file.length()];
+                    try {
+                        sender.sendFile(byteArray, file);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -203,7 +209,7 @@ public class MessengerController {
                 String hexColor = "#" + Integer.toHexString(color.hashCode());
 
                 try {
-                    messageSender.sendBackgroundColor(hexColor);
+                    sender.sendBackgroundColor(hexColor);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -232,8 +238,7 @@ public class MessengerController {
 
             @Override
             public void handle(Event event) {
-                for(String message : allMessages)
-                {
+                for (String message : allMessages) {
                     logger.info(message);
                 }
 //                try {
@@ -273,19 +278,17 @@ public class MessengerController {
     }
 
 
-    public void saveMessages(boolean isExiting) throws IOException, InterruptedException{
+    public void saveMessages(boolean isExiting) throws IOException, InterruptedException {
 //        sentMessages = messageSender.getMessageList();
         String messages = "";
-        for(String message : allMessages)
-        {
-            messages+=message+"\n";
+        for (String message : allMessages) {
+            messages += message + "\n";
         }
         logger.info(messages);
         byte[] byteArrayFromString = messages.getBytes(Charset.forName("UTF-8"));
 
 
-        if(!isExiting)
-        {
+        if (!isExiting) {
             FileChooser fileSaver = new FileChooser();
             //FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
             fileSaver.getExtensionFilters().addAll(
@@ -295,57 +298,50 @@ public class MessengerController {
                             "*.pdf", "*.docx")
             );
             File file = fileSaver.showSaveDialog(stage);
-            if(file!=null)
-            {
+            if (file != null) {
                 logger.info(file.getAbsolutePath());
                 try {
-                    saveFile(file.getAbsolutePath(),byteArrayFromString,false);
+                    saveFile(file.getAbsolutePath(), byteArrayFromString, false);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
-        }
-        else
-        {
+        } else {
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm to close");
             String s = "Are you sure to exit?";
             alert.setContentText(s);
             Optional<ButtonType> result = alert.showAndWait();
-            if ((result.isPresent()) && (result.get() == ButtonType.OK))
-            {
+            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
 //                saveFile(ipAddressToConnect+".txt",byteArrayFromString,true);
                 Platform.exit();
                 System.exit(0);
-                if(messageReceiver.isAlive()) messageReceiver.join();
-                if(messageSender.isAlive()) messageSender.join();
+                if (receiver.isAlive()) receiver.join();
+                if (sender.isAlive()) sender.join();
             }
         }
     }
 
-    public void saveReceivedMessage()
-    {
+    public void saveReceivedMessage() {
 
     }
 
-    public void saveFile(String filePath,byte[] byteArray,boolean isExiting) throws IOException
-    {
+    public void saveFile(String filePath, byte[] byteArray, boolean isExiting) throws IOException {
 
         logger.info("From OutSide");
-        for(byte b : byteArray)
-        {
-            System.out.print((char)b);
+        for (byte b : byteArray) {
+            System.out.print((char) b);
         }
         FileOutputStream fileOutputStream = new FileOutputStream(filePath);
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
         bufferedOutputStream.write(byteArray, 0, byteArray.length);
         bufferedOutputStream.flush();
         bufferedOutputStream.close();
-        if(!isExiting)
-        {
-            Label infoMessage = new Label("File is successfully saved as "+filePath);;
+        if (!isExiting) {
+            Label infoMessage = new Label("File is successfully saved as " + filePath);
+            ;
             infoMessage.setStyle("-fx-font-size:15;-fx-padding:10;");
             Label openLink = new Label("Click Here To Open");
             openLink.setCursor(Cursor.HAND);
@@ -362,7 +358,7 @@ public class MessengerController {
 
                 }
             });
-            VBox vbox = new VBox(infoMessage,openLink);
+            VBox vbox = new VBox(infoMessage, openLink);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
             alert.setHeaderText("Congratulation");
@@ -371,18 +367,19 @@ public class MessengerController {
         }
     }
 
-    public void setMessageSender(MessageSender messageSender) {
-        this.messageSender = messageSender;
+    public void setSender(Sender sender) {
+        this.sender = sender;
     }
 
-    public void setMessageReceiver(MessageReceiver messageReceiver) {
-        this.messageReceiver = messageReceiver;
+    public void setReceiver(Receiver receiver) {
+        this.receiver = receiver;
     }
 
 
     public void showScene() {
         stage.show();
     }
+    public void newSendMessage(PMessage createPMessage) {
 
-
+    }
 }
