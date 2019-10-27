@@ -2,8 +2,8 @@
 
 title __LOGIN's Class Diagram__\n
 
-  namespace com.client.login {
-    class com.client.login.LoginController {
+  namespace com.lobby.login {
+    class com.lobby.login.LoginController {
         {static} + controller : ChatController
         + hostnameTextfield : TextField
         - borderPane : BorderPane
@@ -29,8 +29,8 @@ title __LOGIN's Class Diagram__\n
   }
   
 
-  namespace com.client.login {
-    class com.client.login.MainLauncher {
+  namespace com.lobby.login {
+    class com.lobby.login.MainLauncher {
         {static} - primaryStageObj : Stage
         {static} + getPrimaryStage()
         {static} + main()
@@ -39,8 +39,8 @@ title __LOGIN's Class Diagram__\n
   }
   
 
-  com.client.login.LoginController .up.|> javafx.fxml.Initializable
-  com.client.login.MainLauncher -up-|> javafx.application.Application
+  com.lobby.login.LoginController .up.|> javafx.fxml.Initializable
+  com.lobby.login.MainLauncher -up-|> javafx.application.Application
 
 
 right footer

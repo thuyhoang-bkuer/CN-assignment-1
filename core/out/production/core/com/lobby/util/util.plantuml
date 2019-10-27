@@ -2,8 +2,8 @@
 
 title __UTIL's Class Diagram__\n
 
-  namespace com.client.util {
-    class com.client.util.ImageUtil {
+  namespace com.lobby.util {
+    class com.lobby.util.ImageUtil {
         {static} + decodedImage : Image
         {static} + height : double
         {static} + width : double
@@ -15,16 +15,16 @@ title __UTIL's Class Diagram__\n
   }
   
 
-  namespace com.client.util {
-    class com.client.util.ResizeHelper {
+  namespace com.lobby.util {
+    class com.lobby.util.ResizeHelper {
         {static} + addListenerDeeply()
         {static} + addResizeListener()
     }
   }
   
 
-  namespace com.client.util {
-    class com.client.util.ResizeHelper.ResizeListener {
+  namespace com.lobby.util {
+    class com.lobby.util.ResizeHelper.ResizeListener {
         - border : int
         - cursorEvent : Cursor
         - stage : Stage
@@ -36,22 +36,22 @@ title __UTIL's Class Diagram__\n
   }
   
 
-  namespace com.client.util {
-    class com.client.util.VoicePlayback {
+  namespace com.lobby.util {
+    class com.lobby.util.VoicePlayback {
         {static} + playAudio()
     }
   }
   
 
-  namespace com.client.util {
-    class com.client.util.VoiceRecorder {
+  namespace com.lobby.util {
+    class com.lobby.util.VoiceRecorder {
         {static} + captureAudio()
     }
   }
   
 
-  namespace com.client.util {
-    class com.client.util.VoiceUtil {
+  namespace com.lobby.util {
+    class com.lobby.util.VoiceUtil {
         {static} # isRecording : boolean
         {static} ~ out : ByteArrayOutputStream
         {static} + isRecording()
@@ -61,10 +61,10 @@ title __UTIL's Class Diagram__\n
   }
   
 
-  com.client.util.ResizeHelper +-down- com.client.util.ResizeHelper.ResizeListener
-  com.client.util.ResizeHelper.ResizeListener .up.|> javafx.event.EventHandler
-  com.client.util.VoicePlayback -up-|> com.client.util.VoiceUtil
-  com.client.util.VoiceRecorder -up-|> com.client.util.VoiceUtil
+  com.lobby.util.ResizeHelper +-down- com.lobby.util.ResizeHelper.ResizeListener
+  com.lobby.util.ResizeHelper.ResizeListener .up.|> javafx.event.EventHandler
+  com.lobby.util.VoicePlayback -up-|> com.lobby.util.VoiceUtil
+  com.lobby.util.VoiceRecorder -up-|> com.lobby.util.VoiceUtil
 
 
 right footer
