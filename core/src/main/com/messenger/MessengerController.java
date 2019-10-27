@@ -1,5 +1,5 @@
 package com.messenger;
-import com.messages.PMessage;
+//import com.messages.PMessage;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.sql.Time;
 import java.util.ArrayList;
 
 import java.util.Random;
@@ -89,7 +90,7 @@ public class MessengerController {
         Random rand = new Random();
 
         int sizeOfHeart = rand.nextInt(25) + 1;
-        int speedOfHeart = rand.nextInt(5) + 1;
+        int speedOfHeart = rand.nextInt(20) + 1;
         int startXPoint = rand.nextInt(700);
         int startYPoint = rand.nextInt(700);
         int direction = rand.nextInt(5) + 1;
@@ -105,7 +106,7 @@ public class MessengerController {
                 translateTransition = new TranslateTransition(Duration.millis(speedOfHeart*1000), svgImg);
                 translateTransition.setFromX(0);
                 translateTransition.setToX(700 - sizeOfHeart);
-                translateTransition.setCycleCount(2);
+                translateTransition.setCycleCount(Timeline.INDEFINITE);
                 translateTransition.setAutoReverse(true);
                 break;
 
@@ -116,7 +117,7 @@ public class MessengerController {
                 translateTransition = new TranslateTransition(Duration.millis(speedOfHeart*1000), svgImg);
                 translateTransition.setFromY(0);
                 translateTransition.setToY(700 - sizeOfHeart);
-                translateTransition.setCycleCount(2);
+                translateTransition.setCycleCount(Timeline.INDEFINITE);
                 translateTransition.setAutoReverse(true);
                 break;
 
@@ -130,7 +131,7 @@ public class MessengerController {
                 translateTransition.setToX(700 - sizeOfHeart);
                 translateTransition.setFromY(0);
                 translateTransition.setToY(700-sizeOfHeart);
-                translateTransition.setCycleCount(2);
+                translateTransition.setCycleCount(Timeline.INDEFINITE);
                 translateTransition.setAutoReverse(true);
                 break;
 
@@ -141,7 +142,7 @@ public class MessengerController {
                 translateTransition = new TranslateTransition(Duration.millis(speedOfHeart*1000), svgImg);
                 translateTransition.setFromY(700 - sizeOfHeart);
                 translateTransition.setToY(0);
-                translateTransition.setCycleCount(2);
+                translateTransition.setCycleCount(Timeline.INDEFINITE);
                 translateTransition.setAutoReverse(true);
                 break;
 
@@ -152,7 +153,7 @@ public class MessengerController {
                 translateTransition = new TranslateTransition(Duration.millis(speedOfHeart*1000), svgImg);
                 translateTransition.setFromX(700 - sizeOfHeart);
                 translateTransition.setToX(0);
-                translateTransition.setCycleCount(2);
+                translateTransition.setCycleCount(Timeline.INDEFINITE);
                 translateTransition.setAutoReverse(true);
                 break;
 
@@ -166,7 +167,7 @@ public class MessengerController {
                 translateTransition.setToX(0);
                 translateTransition.setFromY(700 - sizeOfHeart);
                 translateTransition.setToY(0);
-                translateTransition.setCycleCount(2);
+                translateTransition.setCycleCount(Timeline.INDEFINITE);
                 translateTransition.setAutoReverse(true);
                 break;
         }
@@ -245,7 +246,7 @@ public class MessengerController {
         });
 
 
-        int numberOfSquares = 60;
+        int numberOfSquares = 40;
         while (numberOfSquares > 0){
             generateAnimation();
             numberOfSquares--;

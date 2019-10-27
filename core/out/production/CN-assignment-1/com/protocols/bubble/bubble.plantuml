@@ -2,9 +2,9 @@
 
 title __BUBBLE's Class Diagram__\n
 
-  namespace com.messages {
+  namespace com.protocols {
     namespace bubble {
-      class com.messages.bubble.Bubble {
+      class com.protocols.bubble.Bubble {
           # drawRectBubbleIndicatorRule : double
           + Bubble()
           - drawRectBubbleLeftBaselineIndicator()
@@ -17,7 +17,7 @@ title __BUBBLE's Class Diagram__\n
   }
   
 
-  namespace com.messages {
+  namespace com.protocols {
     namespace bubble {
       enum BubbleSpec {
         FACE_BOTTOM
@@ -31,9 +31,9 @@ title __BUBBLE's Class Diagram__\n
   }
   
 
-  namespace com.messages {
+  namespace com.protocols {
     namespace bubble {
-      class com.messages.bubble.BubbledLabel {
+      class com.protocols.bubble.BubbledLabel {
           - pading : double
           - systemCall : boolean
           + BubbledLabel()
@@ -54,9 +54,9 @@ title __BUBBLE's Class Diagram__\n
   }
   
 
-  com.messages.bubble.Bubble -up-|> javafx.scene.shape.Path
-  com.messages.bubble.BubbledLabel -up-|> javafx.scene.control.Label
-  com.messages.bubble.BubbledLabel o-- com.messages.bubble.BubbleSpec : bs
+  com.protocols.bubble.Bubble -up-|> javafx.scene.shape.Path
+  com.protocols.bubble.BubbledLabel -up-|> javafx.scene.control.Label
+  com.protocols.bubble.BubbledLabel o-- com.protocols.bubble.BubbleSpec : bs
 
 
 right footer
