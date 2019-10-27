@@ -1,9 +1,8 @@
 package com.messenger;
 import com.messages.PMessage;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -18,7 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+import javafx.scene.shape.SVGPath;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.slf4j.Logger;
@@ -76,73 +75,105 @@ public class MessengerController {
         this.root = root;
     }
 
+    public String SVGPathGen(int ix, int iy,int isize){
+        String path = "";
+        String x = String.valueOf(ix);
+        String y = String.valueOf(iy);
+        String size = String.valueOf(isize);
+        path += "M "+ x + " " + y +" "  + " a 1 1 1 0 1 " + size + " 0 a 1 1 0 0 1 "+size+" 0 l -"+size+" "+size+" z";
+        return path;
+    }
 
     public void generateAnimation(){
         Random rand = new Random();
-        int sizeOfSquare = rand.nextInt(50) + 1;
-        int speedOfSquare = rand.nextInt(10) + 5;
-        int startXPoint = rand.nextInt(700) ;
-        int startYPoint = rand.nextInt(700) ;
+
+        int sizeOfHeart = rand.nextInt(25) + 1;
+        int speedOfHeart = rand.nextInt(5) + 1;
+        int startXPoint = rand.nextInt(700);
+        int startYPoint = rand.nextInt(700);
         int direction = rand.nextInt(5) + 1;
-
-        KeyValue moveXAxis = null;
-        KeyValue moveYAxis = null;
-        Rectangle r1 = null;
-
+        //rectParallel.setTranslateX(50);
+        //rectParallel.setTranslateY(75);
+        SVGPath svgImg = new SVGPath();
+        TranslateTransition translateTransition = null;
         switch (direction){
-            case 1 :
-                // MOVE LEFT TO RIGHT
-                r1 = new Rectangle(0,startYPoint,sizeOfSquare,sizeOfSquare);
-                moveXAxis = new KeyValue(r1.xProperty(), 700 -  sizeOfSquare);
-                break;
-            case 2 :
-                // MOVE TOP TO BOTTOM
-                r1 = new Rectangle(startXPoint,0,sizeOfSquare,sizeOfSquare);
-                moveYAxis = new KeyValue(r1.yProperty(), 700 - sizeOfSquare);
-                break;
-            case 3 :
-                // MOVE LEFT TO RIGHT, TOP TO BOTTOM
-                r1 = new Rectangle(startXPoint,0,sizeOfSquare,sizeOfSquare);
-                moveXAxis = new KeyValue(r1.xProperty(), 700 -  sizeOfSquare);
-                moveYAxis = new KeyValue(r1.yProperty(), 700 - sizeOfSquare);
-                break;
-            case 4 :
-                // MOVE BOTTOM TO TOP
-                r1 = new Rectangle(startXPoint,700-sizeOfSquare ,sizeOfSquare,sizeOfSquare);
-                moveYAxis = new KeyValue(r1.xProperty(), 0);
-                break;
-            case 5 :
-                // MOVE RIGHT TO LEFT
-                r1 = new Rectangle(700-sizeOfSquare,startYPoint,sizeOfSquare,sizeOfSquare);
-                moveXAxis = new KeyValue(r1.xProperty(), 0);
-                break;
-            case 6 :
-                //MOVE RIGHT TO LEFT, BOTTOM TO TOP
-                r1 = new Rectangle(startXPoint,700 - sizeOfSquare,sizeOfSquare,sizeOfSquare);
-                moveXAxis = new KeyValue(r1.xProperty(), 0);
-                moveYAxis = new KeyValue(r1.yProperty(), 0);
+            case 1:
+                // Move left 2 right
+                svgImg.setContent(SVGPathGen(0,startYPoint,sizeOfHeart));
+                svgImg.setTranslateX(0);
+                translateTransition = new TranslateTransition(Duration.millis(speedOfHeart*1000), svgImg);
+                translateTransition.setFromX(0);
+                translateTransition.setToX(700 - sizeOfHeart);
+                translateTransition.setCycleCount(2);
+                translateTransition.setAutoReverse(true);
                 break;
 
-            default:
-                System.out.println("default");
-        }
-        //#FDFFFC
-        r1.setFill(Color.web("#bbd9dd"));
-        r1.setOpacity(0.2);
+            case 2:
+                // Move top 2 bottom
+                svgImg.setContent(SVGPathGen(startXPoint,0,sizeOfHeart));
+                svgImg.setTranslateY(0);
+                translateTransition = new TranslateTransition(Duration.millis(speedOfHeart*1000), svgImg);
+                translateTransition.setFromY(0);
+                translateTransition.setToY(700 - sizeOfHeart);
+                translateTransition.setCycleCount(2);
+                translateTransition.setAutoReverse(true);
+                break;
 
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(speedOfSquare * 1000), moveXAxis, moveYAxis);
-        Timeline timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.setAutoReverse(true);
-        timeline.getKeyFrames().add(keyFrame);
-        timeline.play();
-        try {
-            if (r1.getX()+r1.getWidth() <= 600 && r1.getY() + r1.getHeight() <= 48){
-                background.getChildren().add(background.getChildren().size() - 1, r1);
-            }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+            case 3:
+                // Move left 2 right, top 2 bottom
+                svgImg.setContent(SVGPathGen(startXPoint,0,sizeOfHeart));
+                svgImg.setTranslateX(0);
+                svgImg.setTranslateY(0);
+                translateTransition = new TranslateTransition(Duration.millis(speedOfHeart*1000), svgImg);
+                translateTransition.setFromX(0);
+                translateTransition.setToX(700 - sizeOfHeart);
+                translateTransition.setFromY(0);
+                translateTransition.setToY(700-sizeOfHeart);
+                translateTransition.setCycleCount(2);
+                translateTransition.setAutoReverse(true);
+                break;
+
+            case 4:
+                // Move bottom 2 top
+                svgImg.setContent(SVGPathGen(0,startYPoint,sizeOfHeart));
+                svgImg.setTranslateY(700 - sizeOfHeart);
+                translateTransition = new TranslateTransition(Duration.millis(speedOfHeart*1000), svgImg);
+                translateTransition.setFromY(700 - sizeOfHeart);
+                translateTransition.setToY(0);
+                translateTransition.setCycleCount(2);
+                translateTransition.setAutoReverse(true);
+                break;
+
+            case 5:
+                // Move right 2 left
+                svgImg.setContent(SVGPathGen(0,startYPoint,sizeOfHeart));
+                svgImg.setTranslateX(700 - sizeOfHeart);
+                translateTransition = new TranslateTransition(Duration.millis(speedOfHeart*1000), svgImg);
+                translateTransition.setFromX(700 - sizeOfHeart);
+                translateTransition.setToX(0);
+                translateTransition.setCycleCount(2);
+                translateTransition.setAutoReverse(true);
+                break;
+
+            case 6:
+                // Move left 2 right
+                svgImg.setContent(SVGPathGen(0,startYPoint,sizeOfHeart));
+                svgImg.setTranslateX(700 - sizeOfHeart);
+                svgImg.setTranslateY(700 - sizeOfHeart);
+                translateTransition = new TranslateTransition(Duration.millis(speedOfHeart*1000), svgImg);
+                translateTransition.setFromX(700 - sizeOfHeart);
+                translateTransition.setToX(0);
+                translateTransition.setFromY(700 - sizeOfHeart);
+                translateTransition.setToY(0);
+                translateTransition.setCycleCount(2);
+                translateTransition.setAutoReverse(true);
+                break;
         }
+
+        svgImg.setFill(Color.web("#bbd9dd"));
+        svgImg.setOpacity(0.2);
+        translateTransition.play();
+        background.getChildren().add(background.getChildren().size()-1,svgImg);
     }
 
     public void initialize() {
