@@ -34,10 +34,7 @@ import java.util.ResourceBundle;
 
 public class MessengerController {
 
-    @FXML
-    private Label listeningAtLabel;
-    @FXML
-    private Label connectedToLabel;
+
     @FXML
     private ImageView messageSendButton;
     @FXML
@@ -48,12 +45,7 @@ public class MessengerController {
     private ColorPicker themeChangeButton;
     @FXML
     private ScrollPane messageList;
-    @FXML
-    private ImageView saveMessageButton;
-    @FXML
-    private Label chatUserNameLabel;
-    @FXML
-    private ImageView loadMessageIcon;
+
     @FXML
     private Pane topPane;
 
@@ -88,7 +80,7 @@ public class MessengerController {
 
     public void generateAnimation(){
         Random rand = new Random();
-        int sizeOfSquare = rand.nextInt(30) + 1;
+        int sizeOfSquare = rand.nextInt(20) + 1;
         int speedOfSquare = rand.nextInt(10) + 5;
         int startXPoint = rand.nextInt(500) + 300;
         int startYPoint = rand.nextInt(40) + 10;
@@ -102,34 +94,34 @@ public class MessengerController {
             case 1 :
                 // MOVE LEFT TO RIGHT
                 r1 = new Rectangle(0,startYPoint,sizeOfSquare,sizeOfSquare);
-                moveXAxis = new KeyValue(r1.xProperty(), 1040 -  sizeOfSquare);
+                moveXAxis = new KeyValue(r1.xProperty(), 50 -  sizeOfSquare);
                 break;
             case 2 :
                 // MOVE TOP TO BOTTOM
                 r1 = new Rectangle(startXPoint,0,sizeOfSquare,sizeOfSquare);
-                moveYAxis = new KeyValue(r1.yProperty(), 60 - sizeOfSquare);
+                moveYAxis = new KeyValue(r1.yProperty(), 50 - sizeOfSquare);
                 break;
             case 3 :
                 // MOVE LEFT TO RIGHT, TOP TO BOTTOM
                 r1 = new Rectangle(startXPoint,0,sizeOfSquare,sizeOfSquare);
-                moveXAxis = new KeyValue(r1.xProperty(), 1040 -  sizeOfSquare);
-                moveYAxis = new KeyValue(r1.yProperty(), 80 - sizeOfSquare);
+                moveXAxis = new KeyValue(r1.xProperty(), 600 -  sizeOfSquare);
+                moveYAxis = new KeyValue(r1.yProperty(), 50 - sizeOfSquare);
                 break;
             case 4 :
                 // MOVE BOTTOM TO TOP
-                r1 = new Rectangle(startXPoint,80-sizeOfSquare ,sizeOfSquare,sizeOfSquare);
+                r1 = new Rectangle(startXPoint,50-sizeOfSquare ,sizeOfSquare,sizeOfSquare);
                 moveYAxis = new KeyValue(r1.xProperty(), 0);
                 break;
             case 5 :
                 // MOVE RIGHT TO LEFT
-                r1 = new Rectangle(1040-sizeOfSquare,startYPoint,sizeOfSquare,sizeOfSquare);
+                r1 = new Rectangle(600-sizeOfSquare,startYPoint,sizeOfSquare,sizeOfSquare);
                 moveXAxis = new KeyValue(r1.xProperty(), 0);
                 break;
             case 6 :
                 //MOVE RIGHT TO LEFT, BOTTOM TO TOP
-                r1 = new Rectangle(startXPoint,0,sizeOfSquare,sizeOfSquare);
-                moveXAxis = new KeyValue(r1.xProperty(), 1040 -  sizeOfSquare);
-                moveYAxis = new KeyValue(r1.yProperty(), 80 - sizeOfSquare);
+                r1 = new Rectangle(startXPoint,50 - sizeOfSquare,sizeOfSquare,sizeOfSquare);
+                moveXAxis = new KeyValue(r1.xProperty(), 0);
+                moveYAxis = new KeyValue(r1.yProperty(), 0);
                 break;
 
             default:
@@ -146,7 +138,7 @@ public class MessengerController {
         timeline.getKeyFrames().add(keyFrame);
         timeline.play();
         try {
-            if (r1.getX()+r1.getWidth() <= 600 && r1.getY() + r1.getHeight() <= 59){
+            if (r1.getX()+r1.getWidth() <= 600 && r1.getY() + r1.getHeight() <= 48){
                 topPane.getChildren().add(topPane.getChildren().size() - 1, r1);
             }
         }catch (Exception e){
@@ -220,40 +212,6 @@ public class MessengerController {
                 }
             }
         });
-
-        saveMessageButton.setOnMouseClicked(new EventHandler<Event>() {
-
-            @Override
-            public void handle(Event arg0) {
-                try {
-                    saveMessages(false);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        loadMessageIcon.setOnMouseClicked(new EventHandler<Event>() {
-
-            @Override
-            public void handle(Event event) {
-                for (String message : allMessages) {
-                    logger.info(message);
-                }
-//                try {
-//                    FileReader fileReader = new FileReader(ipAddressToConnect+".txt");
-//                    StringBuilder messages = new StringBuilder();
-//                } catch (IOException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-            }
-        });
         
 
         int numberOfSquares = 60;
@@ -268,51 +226,6 @@ public class MessengerController {
     }
 
 
-    public void saveMessages(boolean isExiting) throws IOException, InterruptedException {
-//        sentMessages = messageSender.getMessageList();
-        String messages = "";
-        for (String message : allMessages) {
-            messages += message + "\n";
-        }
-        logger.info(messages);
-        byte[] byteArrayFromString = messages.getBytes(Charset.forName("UTF-8"));
-
-
-        if (!isExiting) {
-            FileChooser fileSaver = new FileChooser();
-            //FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-            fileSaver.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Text File",
-                            "*.txt"),
-                    new FileChooser.ExtensionFilter("Document",
-                            "*.pdf", "*.docx")
-            );
-            File file = fileSaver.showSaveDialog(stage);
-            if (file != null) {
-                logger.info(file.getAbsolutePath());
-                try {
-                    saveFile(file.getAbsolutePath(), byteArrayFromString, false);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        } else {
-
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirm to close");
-            String s = "Are you sure to exit?";
-            alert.setContentText(s);
-            Optional<ButtonType> result = alert.showAndWait();
-            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-//                saveFile(ipAddressToConnect+".txt",byteArrayFromString,true);
-                Platform.exit();
-                System.exit(0);
-                if (receiver.isAlive()) receiver.join();
-                if (sender.isAlive()) sender.join();
-            }
-        }
-    }
 
     public void saveReceivedMessage() {
 
