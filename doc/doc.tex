@@ -214,6 +214,36 @@ KHOA KHOA HỌC - KỸ THUẬT MÁY TÍNH }
 \newpage
 
 \section{Định nghĩa chức năng}
+	\subsection{Đăng nhập}
+	\begin{itemize}
+		\item Cho phép user nhập tên và nhập đường dẫn tới server và tên port để vào phòng chat. Tên user phải bắt đầu bằng chữ cái
+		\item Tạo avatar là chữ cái đầu tên của user
+	\end{itemize}
+	\subsection{Nhắn tin giữa 2 user với nhau}
+	\begin{itemize}
+		\item Cho phép 2 user trong phòng chat nhắn tin qua lại với nhau.
+		\item Tin nhắn gửi đi có thể là tin nhắn văn bản hoặc tin nhắn thoại.
+		\item User có thể đổi màu tin nhắn
+	\end{itemize}
+	\subsection{Giao tiếp giữa 1 user với các user khác trong phòng chat}
+	\begin{itemize}
+		\item Cho phép user gửi tin nhắn đến cùng lúc các user khác thông qua một kênh chat chung.
+		\item Tin nhắn gửi đi có thể là tin nhắn văn bản hoặc tin nhắn thoại.
+	\end{itemize}
+	\subsection{Gửi file}
+	\begin{itemize}
+		\item Cho phép user gửi một tệp tin từ trong máy tính cá nhân tới các user khác trong phòng chat chung hoặc tới một user khác trong server.
+	\end{itemize}
+	\subsection{Xem trạng thái online offline của bạn bè trong list danh sách}
+	\begin{itemize}
+		\item User có thể thấy ai đang online nếu người đó có tích xanh trước tên của mình, offline nếu tích xám ở bảng danh sách user và away nếu tích có màu vàng.
+		\item User cũng có thể đổi trạng thái sử dụng của mình về online, offline, away.
+	\end{itemize}
+	\subsection{Server}
+	\begin{itemize}
+		\item Là nơi xử lý các hoạt động của user như đăng nhập, gửi tin nhắn, gửi file, chuyển trạng thái, chuyển kênh
+		\item Server có 2 phiên bản CLI và UI tùy sở thích người dùng.
+	\end{itemize}
 
 \section{Định nghĩa giao thức}
 
@@ -224,7 +254,175 @@ KHOA KHOA HỌC - KỸ THUẬT MÁY TÍNH }
 \section{Kết quả và đánh giá}
 
 \section{Hướng dẫn sử dụng}
-
+	    \subsection{Bước 1: Khởi động server}
+	Cách 1: sử dụng server CLI:
+	\begin{itemize}
+		\item Chạy class com.server.Server.
+		\newline
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\linewidth]{server_CLI.PNG}
+			\caption{Server CLI}
+			\label{fig:my_label}
+		\end{figure}
+		\item Nhập tên port vào. VD: 9001.
+	\end{itemize}
+	Cách 2: sử dụng server UI:
+	\begin{itemize}
+		\item Chạy class com.server.ServerController.
+		\newline
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{server_Launcher.PNG}
+			\caption{Server UI}
+			\label{fig:my_label}
+		\end{figure}
+		\item Nhập đường dẫn vào server ở ô localhost. Nhập port vào ô dưới rồi bấm nút Start để khởi động server.
+		\item Để tắt server nhấn nút stop
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale = 0.5]{stop-server.PNG}
+			\caption{Server CLI}
+			\label{fig:my_label}
+		\end{figure}
+	\end{itemize}
+	\subsection{Bước 2: Đăng nhập}
+	Chạy class com.client.login.Mainlauncher.
+	\newline
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{LogIn.PNG}
+		\caption{Màn hình Login}
+		\label{fig:my_label}
+	\end{figure}
+	
+	\begin{itemize}
+		\item Nhập tên người dùng vào ô username.
+		\item Nhập đường dẫn tới server vào hostname.
+		\item Nhập port kết nối.
+	\end{itemize}
+	Giao diện sau khi đăng nhập thành công vào server.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{interface.PNG}
+		\caption{Main Interface}
+		\label{fig:my_label}
+	\end{figure}
+	\subsection{Bước 3: Gửi tin nhắn}
+	\subsubsection{Gửi tin nhắn vào phòng chat chung}
+	\begin{itemize}
+		\item Nhấn chọn kênh chat community
+		\item Nhập tin nhắn từ bàn phím vào ô chat dưới cùng
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{enter-message.PNG}
+			\caption{Send public message}
+			\label{fig:my_label}
+		\end{figure}
+		\item Bấm enter hoặc nhấn nút send cạnh ô chat sẽ được kết quả như hình
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{message-sent.PNG}
+			\caption{Message sent in community channel}
+			\label{fig:my_label}
+		\end{figure}
+		\item Để gửi tin nhắn thoại nhấn vào nút thu âm bên phải nút send và bắt đầu nói.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{send-voice-message.PNG}
+			\caption{Send voice message}
+			\label{fig:my_label}
+		\end{figure}
+		\item Nhấn vào nút thu âm 1 lần nữa để gửi đi. Kết quả như hình sau.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{voice-message.PNG}
+			\caption{Voice message sent}
+			\label{fig:my_label}
+		\end{figure}
+		\item Để gửi file nhấn vào nút duyệt file bên phải nút thu âm để mở hộp thoại chọn thư mục.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{send-file.PNG}
+			\caption{Browse file}
+			\label{fig:my_label}
+		\end{figure}
+		\item Nhấn vào file cần chọn. Kết quả như hình sau.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{file-sent.PNG}
+			\caption{File sent}
+			\label{fig:my_label}
+		\end{figure}
+	\end{itemize}
+	\subsubsection{Gửi tin nhắn riêng cho user khác}
+	\begin{itemize}
+		\item Nhấp chọn user để gửi tin nhắn đến.
+		\item Cửa sổ chat mới hiện ra.     
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{start-chat-private.PNG}
+			\caption{Send private message}
+			\label{fig:my_label}
+		\end{figure}
+		\item Nhập tin nhắn từ bàn phím vào ô chat dưới cùng.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{enter-message-private.PNG}
+			\caption{Enter private message}
+			\label{fig:my_label}
+		\end{figure}
+		\item Nhấn nút send hình máy bay giấy ở bên cạnh ô chat hoặc nhấn phím enter để gửi tin.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{message-sent-private.PNG}
+			\caption{Private message sent}
+			\label{fig:my_label}
+		\end{figure}
+		\item Để gửi tệp tin nhấn nút hình tệp tin cạnh nút send để mở hộp thoại chọn thư mục.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{browse-directory-private.PNG}
+			\caption{Browse directory private}
+			\label{fig:my_label}
+		\end{figure}
+		\item Nhấn open để gửi. Kết quả như hình sau.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{private-file-sent.PNG}
+			\caption{Private file sent}
+			\label{fig:my_label}
+		\end{figure}
+		\item Để đồi màu bóng chat nhấn chọn nút bảng màu nằm bên phải nút chọn file và chọn màu.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\linewidth]{browse-color.png}
+			\caption{Change chat bubble's color}
+			\label{fig:my_label}
+		\end{figure}
+		\item Kết quả như hình sau.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{color-changed.PNG}
+			\caption{Chat bubble's color changed}
+			\label{fig:my_label}
+		\end{figure}
+	\end{itemize}
+	\subsection{Bước 4: Chuyển trạng thái hoạt động}
+	Nhấn vào dấu mũi tên ở dưới username góc trên cùng bên trái để mở bảng chuyển trạng thái.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\linewidth]{state-change.png}
+		\caption{Change state}
+		\label{fig:my_label}
+	\end{figure}
+	Sau khi đổi trạng thái, dấu tích ở bên cạnh username sẽ đổi màu đối với các user khác.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{state-changed.PNG}
+		\caption{State changed}
+		\label{fig:my_label}
+	\end{figure}
 
 
 \end{document}
