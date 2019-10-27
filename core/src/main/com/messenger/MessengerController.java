@@ -1,5 +1,8 @@
 package com.messenger;
 import com.messages.PMessage;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -16,8 +19,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-//import javafx.stage.WindowEvent;
-//import javafx.util.Duration;
+import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +54,8 @@ public class MessengerController {
     private Label chatUserNameLabel;
     @FXML
     private ImageView loadMessageIcon;
-
+    @FXML
+    private Pane topPane;
 
     private Sender sender;
     private Receiver receiver;
