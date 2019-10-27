@@ -1,21 +1,5 @@
 package com.messenger;
 
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Base64;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -35,11 +19,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MessageReceiver extends Thread {
-	
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Base64;
+
+public class MessageReceiverCopy extends Thread {
+
 
 	private ServerSocket receiverSocket;
 	private ArrayList<String> messageList;
@@ -51,9 +44,9 @@ public class MessageReceiver extends Thread {
 	static VBox vbox;
 	private Stage stage;
 	@FXML private ScrollPane messageListView;
-	Logger logger = LoggerFactory.getLogger(MessageReceiver.class);
-	
-	public MessageReceiver(int port) throws IOException {
+	Logger logger = LoggerFactory.getLogger(MessageReceiverCopy.class);
+
+	public MessageReceiverCopy(int port) throws IOException {
 		receiverSocket = new ServerSocket(port);
 		receiverSocket.setSoTimeout(1000000);
 		messageList = new ArrayList<String>();
@@ -90,7 +83,6 @@ public class MessageReceiver extends Thread {
 				
 				//logger.info("Received from "+receiver);
 				while(true){
-					logger.info("inf");
 				    InputStream inputStream = receiver.getInputStream();
 				    int inputSize = inputStream.available();
 				    in = new DataInputStream(inputStream);
@@ -99,7 +91,6 @@ public class MessageReceiver extends Thread {
 				    JSONObject jsonObject = (JSONObject) jsonParser.parse(receivedMessage);
 				    boolean isFile = (boolean) jsonObject.get("isFile");
 				    boolean isColor = (boolean) jsonObject.get("isColor");
-				    //logger.info("IS File "+isFile);
 				    if(isFile)
 				    {
 				    	

@@ -13,7 +13,7 @@
    <children>
       <Pane layoutY="52.0" minHeight="643.0" minWidth="510.0" prefHeight="643.0" prefWidth="630.0" style="-fx-min-height: 680; -fx-min-width: 630; -fx-background-image: url(../images/galaxy.jpg);;">
          <children>
-            <TextArea fx:id="messageSendBox" layoutX="4.0" layoutY="554.0" prefHeight="39.0" prefWidth="385.0" promptText="Type a message !!!" style="-fx-border-width: 0;" />
+            <TextArea fx:id="messageSendBox" layoutX="4.0" layoutY="554.0" prefHeight="39.0" prefWidth="385.0" promptText="Type a sMessage !!!" style="-fx-border-width: 0;" />
             <ImageView fx:id="messageSendButton" fitHeight="39.0" fitWidth="38.0" layoutX="402.0" layoutY="554.0" nodeOrientation="INHERIT" pickOnBounds="true" rotate="90.0" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../images/send.png" />

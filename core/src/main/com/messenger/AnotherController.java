@@ -38,8 +38,8 @@ public class AnotherController extends Thread{
 	@FXML public  Label message,connectedToLabel,listeningAtLabel;
 	@FXML private TextArea messageSendBox;
 	private boolean isValid;
-	private MessageReceiver messageReceiver;
-	private MessageSender messageSender;
+	private Receiver receiver;
+	private Sender sender;
 	private Thread conncetionChecker;
 	@FXML private ImageView messageSendButton,fileAttachButton,saveMessageButton,loadMessageIcon;
 	@FXML private ColorPicker themeChangeButton;
@@ -69,19 +69,19 @@ public class AnotherController extends Thread{
 	@Override
 	public void run() {
 		logger.info(Thread.currentThread().getName()+" started....");
-		while(!messageReceiver.isConnected() || messageReceiver.getReceiverPort()!=-1 || messageSender.getSenderPort()!=-1)
+		while(!receiver.isConnected() || receiver.getReceiverPort()!=-1 || sender.getSenderPort()!=-1)
 		{
 			logger.info("not connected");
 			try {
 				Thread.sleep(1000);
-				if(messageReceiver.isConnected() && messageReceiver.getReceiverPort()!=-1 && messageSender.getSenderPort()!=-1)
+				if(receiver.isConnected() && receiver.getReceiverPort()!=-1 && sender.getSenderPort()!=-1)
 				{
-					logger.info("Receiving at :" + messageReceiver.getReceiverPort());
+					logger.info("Receiving at :" + receiver.getReceiverPort());
 					showChatScreen();
-					messageReceiver.setRoot(root);
-					messageSender.setRoot(root);
-					messageSender.setSender(userName);
-					messageReceiver.setStage(stage);
+					receiver.setRoot(root);
+					sender.setRoot(root);
+					sender.setSender(userName);
+					receiver.setStage(stage);
 					if(conncetionChecker.isAlive())
 					{
 						conncetionChecker.stop();
@@ -128,10 +128,10 @@ public class AnotherController extends Thread{
 						logger.info("Sending...");
 						submitButton.setOpacity(0.7);
 						submitButton.setText("Connecting...");
-						messageReceiver = new MessageReceiver(Integer.parseInt(portToListen));
-						messageReceiver.start();
-						messageSender = new MessageSender(ipAddressToConnect,Integer.parseInt(portToConnect));
-						messageSender.start();
+						receiver = new Receiver(Integer.parseInt(portToListen));
+						receiver.start();
+						sender = new Sender(ipAddressToConnect,Integer.parseInt(portToConnect));
+						sender.start();
 						conncetionChecker.start();
 					}
 						
@@ -187,8 +187,8 @@ public class AnotherController extends Thread{
 		connectedToLabel = (Label) root.lookup("#connectedToLabel");
 		messageSendButton = (ImageView) root.lookup("#messageSendButton");
 		messageSendBox = (TextArea) root.lookup("#messageSendBox");
-		connectedToLabel.setText("Sending Message at Port : "+messageSender.getSenderPort());
-		listeningAtLabel.setText("Receiving Message at Port :"+messageReceiver.getReceiverPort());
+		connectedToLabel.setText("Sending Message at Port : "+ sender.getSenderPort());
+		listeningAtLabel.setText("Receiving Message at Port :"+ receiver.getReceiverPort());
 		fileAttachButton = (ImageView) root.lookup("#fileAttachButton");
 		themeChangeButton = (ColorPicker) root.lookup("#themeChangeButton");
 		themeChangeButton.setValue(Color.RED);
@@ -208,11 +208,11 @@ public class AnotherController extends Thread{
 				try {
 					if(message.length()>0)
 					{
-						messageSender.sendMessage(message);
+						sender.sendMessage(message);
 					}
 					if(file!=null)
 					{
-						messageSender.sendFile(byteArray,file);
+						sender.sendFile(byteArray,file);
 						file = null;
 					}
 					messageSendBox.setText("");
@@ -247,7 +247,7 @@ public class AnotherController extends Thread{
 				String hexColor = "#" + Integer.toHexString(color.hashCode()); 
 				
 				try {
-					messageSender.sendBackgroundColor(hexColor);
+					sender.sendBackgroundColor(hexColor);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -367,7 +367,7 @@ public class AnotherController extends Thread{
 	}
 	
 	public void saveMessages(boolean isExiting) throws IOException, InterruptedException{
-		sentMessages = messageSender.getMessageList();
+		sentMessages = sender.getMessageList();
 		String messages = "";
 		for(String message : allMessages)
 		{
@@ -415,10 +415,10 @@ public class AnotherController extends Thread{
 				//messageReceiver.stop();
 				Platform.exit();
 				System.exit(0);
-				if(messageReceiver.isAlive())
-					messageReceiver.join();
-				if(messageSender.isAlive())
-					messageSender.join();
+				if(receiver.isAlive())
+					receiver.join();
+				if(sender.isAlive())
+					sender.join();
 				
 				
 			}			

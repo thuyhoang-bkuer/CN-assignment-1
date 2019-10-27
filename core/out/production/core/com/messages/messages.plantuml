@@ -3,7 +3,7 @@
 title __MESSAGES's Class Diagram__\n
 
   namespace com.messages {
-    class com.messages.Message {
+    class com.messages.SMessage {
         - channel : String
         - count : int
         - list : ArrayList<User>
@@ -80,9 +80,9 @@ title __MESSAGES's Class Diagram__\n
   }
   
 
-  com.messages.Message .up.|> java.io.Serializable
-  com.messages.Message o-- com.messages.Status : status
-  com.messages.Message o-- com.messages.MessageType : type
+  com.messages.SMessage .up.|> java.io.Serializable
+  com.messages.SMessage o-- com.messages.Status : status
+  com.messages.SMessage o-- com.messages.SMessageType : type
   com.messages.User .up.|> java.io.Serializable
   com.messages.User o-- com.messages.Status : status
 

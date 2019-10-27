@@ -102,14 +102,14 @@ public class Server implements Runnable{
                 os = socket.getOutputStream();
                 output = new ObjectOutputStream(os);
 
-                Message firstMessage = (Message) input.readObject();
-                checkDuplicateUsername(firstMessage);
+                SMessage firstSMessage = (SMessage) input.readObject();
+                checkDuplicateUsername(firstSMessage);
                 writers.put(name, output);
-                sendNotification(firstMessage);
+                sendNotification(firstSMessage);
                 addToList();
 
                 while (socket.isConnected()) {
-                    Message inputmsg = (Message) input.readObject();
+                    SMessage inputmsg = (SMessage) input.readObject();
                     if (inputmsg != null) {
 //                        logger.info(inputmsg.getType() + " - " + name + " -> " + channel);
                         switch (inputmsg.getType()) {
@@ -156,38 +156,38 @@ public class Server implements Runnable{
             }
         }
 
-        private Message closeP2P(Message inputmsg) throws IOException {
+        private SMessage closeP2P(SMessage inputmsg) throws IOException {
             logger.info("Close P2P " + inputmsg.getName() + "-" + inputmsg.getPeer().getName());
-            Message msg = new Message();
+            SMessage msg = new SMessage();
             msg.setName(user.getName());
             msg.setPeer(inputmsg.getPeer());
-            msg.setType(MessageType.CLOSEP2P);
+            msg.setType(SMessageType.CLOSEP2P);
             msg.setMsg("");
             writers.get(inputmsg.getPeer().getName()).writeObject(msg);
             writers.get(inputmsg.getPeer().getName()).reset();
             return msg;
         }
 
-        private Message openP2P(Message inputmsg) throws IOException {
+        private SMessage openP2P(SMessage inputmsg) throws IOException {
             logger.info("Open P2P " + inputmsg.getName() + "-" + inputmsg.getPeer().getName());
             Peer peer = inputmsg.getPeer();
             peer.setSourceHost(addresses.get(peer.getName()).getHostAddress());
-            Message msg = new Message();
+            SMessage msg = new SMessage();
             msg.setName(user.getName());
 
             msg.setPeer(inputmsg.getPeer());
-            msg.setType(MessageType.OPENP2P);
+            msg.setType(SMessageType.OPENP2P);
             msg.setMsg("");
             writers.get(inputmsg.getPeer().getName()).writeObject(msg);
             writers.get(inputmsg.getPeer().getName()).reset();
             return msg;
         }
 
-        private Message changeStatus(Message inputmsg) throws IOException {
+        private SMessage changeStatus(SMessage inputmsg) throws IOException {
             logger.info(inputmsg.getName() + " has changed status to  " + inputmsg.getStatus());
-            Message msg = new Message();
+            SMessage msg = new SMessage();
             msg.setName(user.getName());
-            msg.setType(MessageType.STATUS);
+            msg.setType(SMessageType.STATUS);
             msg.setMsg("");
             User userObj = names.get(name);
             userObj.setStatus(inputmsg.getStatus());
@@ -195,46 +195,46 @@ public class Server implements Runnable{
             return msg;
         }
 
-        private void changeChannel(Message inputmsg) throws  IOException {
+        private void changeChannel(SMessage inputmsg) throws  IOException {
             logger.info(inputmsg.getName() + " has changed channel to  " + inputmsg.getChannel());
             this.channel = inputmsg.getChannel();
         }
 
-        private synchronized void checkDuplicateUsername(Message firstMessage) throws DuplicateUsernameException {
-            logger.info(firstMessage.getName() + " is trying to connect");
-            if (!names.containsKey(firstMessage.getName())) {
-                this.name = firstMessage.getName();
+        private synchronized void checkDuplicateUsername(SMessage firstSMessage) throws DuplicateUsernameException {
+            logger.info(firstSMessage.getName() + " is trying to connect");
+            if (!names.containsKey(firstSMessage.getName())) {
+                this.name = firstSMessage.getName();
                 user = new User();
-                user.setName(firstMessage.getName());
+                user.setName(firstSMessage.getName());
                 user.setStatus(Status.ONLINE);
-                user.setPicture(firstMessage.getPicture());
+                user.setPicture(firstSMessage.getPicture());
                 users.add(user);
                 names.put(name, user);
                 addresses.put(name, socket.getInetAddress());
 
                 logger.info(name +  " has been added to the list");
             } else {
-                logger.error(firstMessage.getName()  + " is already connected");
-                throw new DuplicateUsernameException(firstMessage.getName() + " is already connected");
+                logger.error(firstSMessage.getName()  + " is already connected");
+                throw new DuplicateUsernameException(firstSMessage.getName() + " is already connected");
             }
         }
 
-        private Message sendNotification(Message firstMessage) throws IOException {
-            Message msg = new Message();
+        private SMessage sendNotification(SMessage firstSMessage) throws IOException {
+            SMessage msg = new SMessage();
             msg.setMsg("has joined the chat.");
-            msg.setType(MessageType.NOTIFICATION);
-            msg.setName(firstMessage.getName());
-            msg.setPicture(firstMessage.getPicture());
+            msg.setType(SMessageType.NOTIFICATION);
+            msg.setName(firstSMessage.getName());
+            msg.setPicture(firstSMessage.getPicture());
             write(msg);
             return msg;
         }
 
 
-        private Message removeFromList() throws IOException {
+        private SMessage removeFromList() throws IOException {
             logger.debug("removeFromList() method Enter");
-            Message msg = new Message();
+            SMessage msg = new SMessage();
             msg.setMsg("has left the chat.");
-            msg.setType(MessageType.DISCONNECTED);
+            msg.setType(SMessageType.DISCONNECTED);
             msg.setName("SERVER");
             msg.setUserlist(names);
             write(msg);
@@ -245,10 +245,10 @@ public class Server implements Runnable{
         /*
          * For displaying that a user has joined the server
          */
-        private Message addToList() throws IOException {
-            Message msg = new Message();
+        private SMessage addToList() throws IOException {
+            SMessage msg = new SMessage();
             msg.setMsg("Welcome, You have now joined the server! Enjoy chatting!");
-            msg.setType(MessageType.CONNECTED);
+            msg.setType(SMessageType.CONNECTED);
             msg.setName("SERVER");
             write(msg);
             return msg;
@@ -257,7 +257,7 @@ public class Server implements Runnable{
         /*
          * Creates and sends a Message type to the listeners.
          */
-        private void write(Message msg) throws IOException {
+        private void write(SMessage msg) throws IOException {
             for (Map.Entry writer : writers.entrySet()) {
                 if (channel.equals(writer.getKey().toString()) || channel.equals("#Community") || name.equals(writer.getKey().toString())) {
                     msg.setUserlist(names);
